@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'clone of Project-test',
+    'site_title' => 'Admin-Calma',
 ];
