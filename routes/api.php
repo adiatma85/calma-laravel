@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Controller
 use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
+use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,20 @@ Route::prefix('v1')
                 // });
 
 
-                // Palylists
+                // Playlist
+                Route::prefix('playlists')
+                    ->as('playlist.')
+                    ->group(function () {
+                        Route::get('/random', [ApiGuestPlaylistController::class, 'indexWithRandom'])->name('indexWithRandom');
+                        Route::get('/{$playListId}', [ApiGuestPlaylistController::class, 'show'])->name('show');
+                        Route::get('/', [ApiGuestPlaylistController::class, 'index'])->name('index');
+                    });
+
+                Route::prefix('musics')
+                    ->as('music.')
+                    ->group(function () {
+                        
+                    });
             });
     });
 
