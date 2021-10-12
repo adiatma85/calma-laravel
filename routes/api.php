@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Controller
+use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,47 +17,71 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
-    // Permissions
-    Route::apiResource('permissions', 'PermissionsApiController');
+// Guests
+Route::prefix('v1')
+    ->as('api.')
+    ->group(function () {
+        // Testing
+        Route::get('testing', function () {
+            return response()->json([
+                "success" => true,
+                "message" => "berhasil testing"
+            ]);
+        });
 
-    // Roles
-    Route::apiResource('roles', 'RolesApiController');
+        Route::prefix('auth')
+            ->as('auth.')
+            ->group(function () {
+                // Register
+                Route::post('/register', [ApiGuestAuthController::class, 'register'])->name('register');
+                // Login
+                Route::post('/login', [ApiGuestAuthController::class, 'login'])->name('login');
+            });
+    });
 
-    // Users
-    Route::apiResource('users', 'UsersApiController');
 
-    // Music Item
-    Route::post('music-items/media', 'MusicItemApiController@storeMedia')->name('music-items.storeMedia');
-    Route::apiResource('music-items', 'MusicItemApiController');
 
-    // Playlist
-    Route::post('playlists/media', 'PlaylistApiController@storeMedia')->name('playlists.storeMedia');
-    Route::apiResource('playlists', 'PlaylistApiController');
+// Admin
+// Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
+//     // Permissions
+//     Route::apiResource('permissions', 'PermissionsApiController');
 
-    // Music Topic
-    Route::post('music-topics/media', 'MusicTopicApiController@storeMedia')->name('music-topics.storeMedia');
-    Route::apiResource('music-topics', 'MusicTopicApiController');
+//     // Roles
+//     Route::apiResource('roles', 'RolesApiController');
 
-    // Curhatan
-    Route::post('curhatans/media', 'CurhatanApiController@storeMedia')->name('curhatans.storeMedia');
-    Route::apiResource('curhatans', 'CurhatanApiController');
+//     // Users
+//     Route::apiResource('users', 'UsersApiController');
 
-    // Comment
-    Route::post('comments/media', 'CommentApiController@storeMedia')->name('comments.storeMedia');
-    Route::apiResource('comments', 'CommentApiController');
+//     // Music Item
+//     Route::post('music-items/media', 'MusicItemApiController@storeMedia')->name('music-items.storeMedia');
+//     Route::apiResource('music-items', 'MusicItemApiController');
 
-    // Journal
-    Route::post('journals/media', 'JournalApiController@storeMedia')->name('journals.storeMedia');
-    Route::apiResource('journals', 'JournalApiController');
+//     // Playlist
+//     Route::post('playlists/media', 'PlaylistApiController@storeMedia')->name('playlists.storeMedia');
+//     Route::apiResource('playlists', 'PlaylistApiController');
 
-    // Mood Tracker
-    Route::apiResource('mood-trackers', 'MoodTrackerApiController');
+//     // Music Topic
+//     Route::post('music-topics/media', 'MusicTopicApiController@storeMedia')->name('music-topics.storeMedia');
+//     Route::apiResource('music-topics', 'MusicTopicApiController');
 
-    // Mood Tracker Reason
-    Route::apiResource('mood-tracker-reasons', 'MoodTrackerReasonApiController');
+//     // Curhatan
+//     Route::post('curhatans/media', 'CurhatanApiController@storeMedia')->name('curhatans.storeMedia');
+//     Route::apiResource('curhatans', 'CurhatanApiController');
 
-    // Journey
-    Route::apiResource('journeys', 'JourneyApiController');
-});
+//     // Comment
+//     Route::post('comments/media', 'CommentApiController@storeMedia')->name('comments.storeMedia');
+//     Route::apiResource('comments', 'CommentApiController');
 
+//     // Journal
+//     Route::post('journals/media', 'JournalApiController@storeMedia')->name('journals.storeMedia');
+//     Route::apiResource('journals', 'JournalApiController');
+
+//     // Mood Tracker
+//     Route::apiResource('mood-trackers', 'MoodTrackerApiController');
+
+//     // Mood Tracker Reason
+//     Route::apiResource('mood-tracker-reasons', 'MoodTrackerReasonApiController');
+
+//     // Journey
+//     Route::apiResource('journeys', 'JourneyApiController');
+// });
