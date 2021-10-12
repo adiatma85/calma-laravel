@@ -38,6 +38,20 @@ Route::prefix('v1')
                 // Login
                 Route::post('/login', [ApiGuestAuthController::class, 'login'])->name('login');
             });
+
+        // SubGroup with simple api validation grpup
+        Route::middleware(['simpleapivalidation'])
+            ->group(function () {
+                // Route::get('testing', function () {
+                //     return response()->json([
+                //         "success" => true,
+                //         "message" => "berhasil testing"
+                //     ]);
+                // });
+
+
+                // Palylists
+            });
     });
 
 
