@@ -29,6 +29,7 @@ Route::prefix('v1')
             ]);
         });
 
+        // Authentification
         Route::prefix('auth')
             ->as('auth.')
             ->group(function () {

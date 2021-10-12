@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 
 class AuthController
@@ -20,6 +20,31 @@ class AuthController
     // POST
     public function register(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8'
+        ], [
+            "name" => [
+                "string" => "name field must string",
+                "required" => "name field must exist",
+            ],
+            "email" => [
+                "email" => "email field must email",
+                "required" => "email field must exist",
+            ],
+            "password" => [
+                "string" => "password field must string",
+                "required" => "password field must exist",
+                "min" => "password have minimum 8 character"
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+        }
+
         $condition = User::where('email', $request->email)->exists();
         if ($condition) {
             return $this->response(false, Response::HTTP_CONFLICT, "Email is already exists", null);
@@ -32,14 +57,35 @@ class AuthController
     // POST
     public function login(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:8'
+        ], [
+            "email" => [
+                "email" => "email field must email",
+                "required" => "email field must exist",
+            ],
+            "password" => [
+                "string" => "password field must string",
+                "required" => "password field must exist",
+                "min" => "password have minimum 8 character"
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+        }
+
         $user = User::where('email', $request->email);
         if ($user->exists()) {
             $thisUser = $user->first();
-            if (Hash::check($request->password(), $thisUser->password)) {
+            if (Hash::check($request->password, $thisUser->password)) {
                 return $this->response(true, Response::HTTP_OK, "Success login", [
                     "user_id" => $thisUser->id,
                 ]);
             }
         }
+        return $this->response(false, Response::HTTP_NOT_FOUND, "Credentials not found", null);
     }
 }
