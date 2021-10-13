@@ -16,11 +16,11 @@ class MusicController
     // GET
     public function getIndexFromPlaylistId($playlistId)
     {
-        $musics = MusicItem::with(['playlist'])->where('playlist_id', $playlistId);
+        $musics = MusicItem::where('playlist_id', $playlistId);
         if (!$musics->exists()) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
-        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('musics'));
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", [ "musics" => $musics->get() ]);
     }
 
     // GET
@@ -28,8 +28,8 @@ class MusicController
     {
         $music = MusicItem::with(['playlist'])->firstWhere('id', $musicId);
         if (!$music) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
-        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('music'));
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", [ "music" => $music->get() ]);
     }
 }

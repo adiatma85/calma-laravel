@@ -18,23 +18,23 @@ class CurhatController
     // GET
     public function index()
     {
-        $curhatans = Curhatan::with(['user'])->get();
+        $curhatans = Curhatan::with(['user', 'comments'])->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
     // GET
     public function getIndexFromTopic($topicName)
     {
-        $curhatans = Curhatan::with(['user'])->where('topic', $topicName)->get();
+        $curhatans = Curhatan::with(['user', 'comments'])->where('topic', $topicName)->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
     // GET
     public function show($curhatId)
     {
-        $curhatan = Curhatan::with(['user'])->firstWhere('id', $curhatId);
+        $curhatan = Curhatan::with(['user', 'comments'])->firstWhere('id', $curhatId);
         if (!$curhatan->exists()) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["curhatan" => $curhatan->first()]);
     }
@@ -48,7 +48,7 @@ class CurhatController
             "user_id" => "required"
         ], [
             "content" => [
-                "string" => "content field must string",
+                "string" => "content field must be a string",
                 "required" => "content field must exist",
             ],
 
@@ -58,7 +58,7 @@ class CurhatController
         ]);
 
         if ($validator->fails()) {
-            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+            return $this->badRequestFailResponse($validator);
         }
 
         $curhatan = Curhatan::create($request->all());
@@ -68,16 +68,28 @@ class CurhatController
     // PUT
     public function update(Request $request, $curhatanId)
     {
-        $validator = Validator::make($request->all(), [], []);
+        $validator = Validator::make($request->all(), [
+            "content" => "string",
+            "user_id" => "required"
+        ], [
+            "content" => [
+                "string" => "content field must be a string",
+                "required" => "content field must exist",
+            ],
+
+            "user_id" => [
+                "required" => "user_id field must exist",
+            ],
+        ]);
 
         if ($validator->fails()) {
-            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+            return $this->badRequestFailResponse($validator);
         }
 
         $curhatan = Curhatan::where('id', $curhatanId);
 
         if (!$curhatan->exists()) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
         $curhatan->update($request->all());
         return $this->response(true, Response::HTTP_NO_CONTENT, "", null);
@@ -89,7 +101,7 @@ class CurhatController
         $curhatan = Curhatan::where('id', $curhatanId);
 
         if (!$curhatan->exists()) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
         $curhatan->delete();
         return $this->response(true, Response::HTTP_NO_CONTENT, "", null);

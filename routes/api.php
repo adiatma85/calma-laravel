@@ -8,6 +8,13 @@ use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
 use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistController;
 use App\Http\Controllers\Api\V1\Guest\MusicController as ApiGuestMusicController;
 use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatController;
+use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
+
+// Models
+use App\Models\User;
+
+// Helpers
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +33,15 @@ Route::prefix('v1')
     ->group(function () {
         // Testing
         Route::get('testing', function () {
+            $tanggal12Oktober = Carbon::make("2021-10-13");
+            // User lebih dari tanggal itu
+            $ramdani = User::find(4);
             return response()->json([
                 "success" => true,
-                "message" => "berhasil testing"
+                "message" => "berhasil testing",
+                "12 oktober" => $tanggal12Oktober,
+                "ramdani created" => $ramdani->created_at,
+                "boolean" => $ramdani->created_at > $tanggal12Oktober,
             ]);
         });
 
@@ -75,6 +88,12 @@ Route::prefix('v1')
                     });
 
                 // Mood Tracks
+                Route::prefix('mood-tracks')
+                    ->as('mood-track.')
+                    ->group(function () {
+                        Route::post('/index-harian', [ApiGuestMoodTrackerController::class, 'indexHarian'])->name('indexHarian');
+                        Route::post('/', [ApiGuestMoodTrackerController::class, 'store'])->name('store');
+                    });
             });
     });
 

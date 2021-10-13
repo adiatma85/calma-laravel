@@ -42,7 +42,7 @@ class AuthController
         ]);
 
         if ($validator->fails()) {
-            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+            return $this->badRequestFailResponse($validator);
         }
 
         $condition = User::where('email', $request->email)->exists();
@@ -74,7 +74,7 @@ class AuthController
         ]);
 
         if ($validator->fails()) {
-            return $this->response(false, Response::HTTP_BAD_REQUEST, "Bad request", ["details" => $validator]);
+            return $this->badRequestFailResponse($validator);
         }
 
         $user = User::where('email', $request->email);

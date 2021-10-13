@@ -33,7 +33,7 @@ class PlaylistController
     {
         $playlist = Playlist::with(['topic', 'playlistMusicItems'])->firstWhere('id', $playListId);
         if (!$playlist) {
-            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+            return $this->notFoundFailResponse();
         }
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('playlist'));
     }
