@@ -97,5 +97,35 @@ class MoodTrackerController
 
     public function indexMingguan(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            "user_id" => "required",
+            "date_begin" => "required"
+        ], [
+            "user_id" => [
+                "required" => "user_id must exist",
+            ],
+            "date_begin" => [
+                "required" => "date_begin must exist",
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->badRequestFailResponse($validator);
+        }
+
+        $date_begin = Carbon::make($request->date_begin);
+        $date_end = $date_begin->addDay();
+        $moodTrackers = MoodTracker::where('user_id', $request->user_id)
+            ->where('created_at', ">=", $date_begin)
+            ->where('created_at', "<=", $date_end)
+            ->get();
+
+        if (!$moodTrackers) {
+            return $this->notFoundFailResponse();
+        }
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
+            
+        ]);
     }
 }

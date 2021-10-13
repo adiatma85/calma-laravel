@@ -13,7 +13,7 @@ class AddTopicInCurhatsTable extends Migration
      */
     public function up()
     {
-        Schema::table('curhats', function (Blueprint $table) {
+        Schema::table('curhatans', function (Blueprint $table) {
             $table->string('tittle')->nullable()->after('id');
             $table->string('topic')->nullable()->after('content');
         });
@@ -26,7 +26,7 @@ class AddTopicInCurhatsTable extends Migration
      */
     public function down()
     {
-        Schema::table('curhats', function (Blueprint $table) {
+        Schema::table('curhatans', function (Blueprint $table) {
             $table->dropColumn('tittle');
             $table->dropColumn('topic');
         });
