@@ -25,7 +25,9 @@ class Curhatan extends Model implements HasMedia
     ];
 
     protected $fillable = [
+        'tittle',
         'content',
+        'topic',
         'user_id',
         'created_at',
         'updated_at',

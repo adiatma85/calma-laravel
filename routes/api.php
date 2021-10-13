@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 // Controller
 use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
 use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistController;
+use App\Http\Controllers\Api\V1\Guest\MusicController as ApiGuestMusicController;
+use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,28 +45,36 @@ Route::prefix('v1')
         // SubGroup with simple api validation grpup
         Route::middleware(['simpleapivalidation'])
             ->group(function () {
-                // Route::get('testing', function () {
-                //     return response()->json([
-                //         "success" => true,
-                //         "message" => "berhasil testing"
-                //     ]);
-                // });
-
-
                 // Playlist
                 Route::prefix('playlists')
                     ->as('playlist.')
                     ->group(function () {
                         Route::get('/random', [ApiGuestPlaylistController::class, 'indexWithRandom'])->name('indexWithRandom');
-                        Route::get('/{$playListId}', [ApiGuestPlaylistController::class, 'show'])->name('show');
+                        Route::get('/{playListId}', [ApiGuestPlaylistController::class, 'show'])->name('show');
                         Route::get('/', [ApiGuestPlaylistController::class, 'index'])->name('index');
                     });
 
+                // Musics
                 Route::prefix('musics')
                     ->as('music.')
                     ->group(function () {
-                        
+                        Route::get('/from-playlist/{playlistId}', [ApiGuestMusicController::class, 'getIndexFromPlaylistId'])->name('getIndexFromPlaylistId');
+                        Route::get('/{musicId}', [ApiGuestMusicController::class, 'show']);
                     });
+
+                // Curhats
+                Route::prefix('curhatans')
+                    ->as('curhatan.')
+                    ->group(function () {
+                        Route::get('/topic/{topicName}', [ApiGuestCurhatController::class, 'getIndexFromTopic'])->name('getIndexFromTopic');
+                        Route::get('/{curhatanId}', [ApiGuestCurhatController::class, 'show'])->name('show');
+                        Route::put('/{curhatanId}', [ApiGuestCurhatController::class, 'update'])->name('update');
+                        Route::delete('/{curhatanId}', [ApiGuestCurhatController::class, 'delete'])->name('delete');
+                        Route::get('/', [ApiGuestCurhatController::class, 'store'])->name('store');
+                        Route::get('/', [ApiGuestCurhatController::class, 'index'])->name('index');
+                    });
+
+                // Mood Tracks
             });
     });
 

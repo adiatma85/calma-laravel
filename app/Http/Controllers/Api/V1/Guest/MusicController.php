@@ -12,7 +12,16 @@ class MusicController
 
     use ResponseTrait;
 
-    private $userRoles = [2];
+
+    // GET
+    public function getIndexFromPlaylistId($playlistId)
+    {
+        $musics = MusicItem::with(['playlist'])->where('playlist_id', $playlistId);
+        if (!$musics->exists()) {
+            return $this->response(false, Response::HTTP_NOT_FOUND, "Particular resource does not exists", null);
+        }
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('musics'));
+    }
 
     // GET
     public function show($musicId)

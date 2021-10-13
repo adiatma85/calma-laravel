@@ -83,18 +83,18 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @can('music_item_access')
+                            @can('music_topic_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.music-items.index") }}" class="nav-link {{ request()->is("admin/music-items") || request()->is("admin/music-items/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-play-circle">
+                                    <a href="{{ route("admin.music-topics.index") }}" class="nav-link {{ request()->is("admin/music-topics") || request()->is("admin/music-topics/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-atlas">
 
                                         </i>
                                         <p>
-                                            {{ trans('cruds.musicItem.title') }}
+                                            {{ trans('cruds.musicTopic.title') }}
                                         </p>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcan                     
                             @can('playlist_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.playlists.index") }}" class="nav-link {{ request()->is("admin/playlists") || request()->is("admin/playlists/*") ? "active" : "" }}">
@@ -107,14 +107,14 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('music_topic_access')
+                            @can('music_item_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.music-topics.index") }}" class="nav-link {{ request()->is("admin/music-topics") || request()->is("admin/music-topics/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-atlas">
+                                    <a href="{{ route("admin.music-items.index") }}" class="nav-link {{ request()->is("admin/music-items") || request()->is("admin/music-items/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-play-circle">
 
                                         </i>
                                         <p>
-                                            {{ trans('cruds.musicTopic.title') }}
+                                            {{ trans('cruds.musicItem.title') }}
                                         </p>
                                     </a>
                                 </li>
