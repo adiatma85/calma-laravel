@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
 use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistController;
 use App\Http\Controllers\Api\V1\Guest\MusicController as ApiGuestMusicController;
 use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatController;
+use App\Http\Controllers\Api\V1\Guest\CommentController as ApiGuestCommentController;
 use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
 
 // Models
@@ -83,8 +84,15 @@ Route::prefix('v1')
                         Route::get('/{curhatanId}', [ApiGuestCurhatController::class, 'show'])->name('show');
                         Route::put('/{curhatanId}', [ApiGuestCurhatController::class, 'update'])->name('update');
                         Route::delete('/{curhatanId}', [ApiGuestCurhatController::class, 'delete'])->name('delete');
-                        Route::get('/', [ApiGuestCurhatController::class, 'store'])->name('store');
+                        Route::post('/', [ApiGuestCurhatController::class, 'store'])->name('store');
                         Route::get('/', [ApiGuestCurhatController::class, 'index'])->name('index');
+                    });
+
+                // Comment
+                Route::prefix('comments')
+                    ->as('comment.')
+                    ->group(function () {
+                        Route::post('/', [ApiGuestCommentController::class, 'store'])->name('store');
                     });
 
                 // Mood Tracks

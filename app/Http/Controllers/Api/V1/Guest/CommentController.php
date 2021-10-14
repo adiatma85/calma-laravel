@@ -47,7 +47,7 @@ class CommentController
             return $this->badRequestFailResponse($validator);
         }
 
-        $comment = Comment::make($request->except('user_id'));
+        $comment = Comment::create($request->all());
         return $this->response(true, Response::HTTP_OK, "Success create curhatan", compact('comment'));
     }
 }

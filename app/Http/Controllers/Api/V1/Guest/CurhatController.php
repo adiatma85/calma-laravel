@@ -18,21 +18,22 @@ class CurhatController
     // GET
     public function index()
     {
-        $curhatans = Curhatan::with(['user', 'comments'])->get();
+        $curhatans = Curhatan::with(['user'])->get();
+        $curhatans->load('comments');
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
     // GET
     public function getIndexFromTopic($topicName)
     {
-        $curhatans = Curhatan::with(['user', 'comments'])->where('topic', $topicName)->get();
+        $curhatans = Curhatan::with(['user'])->where('topic', $topicName)->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
     // GET
     public function show($curhatId)
     {
-        $curhatan = Curhatan::with(['user', 'comments'])->firstWhere('id', $curhatId);
+        $curhatan = Curhatan::with(['user'])->firstWhere('id', $curhatId);
         if (!$curhatan->exists()) {
             return $this->notFoundFailResponse();
         }
@@ -47,6 +48,7 @@ class CurhatController
             "content" => "required|string",
             "is_anonymous" => "required|boolean",
             "user_id" => "required",
+            "topic" => "required|string"
         ], [
             "content" => [
                 "string" => "content field must be a string",
@@ -56,6 +58,11 @@ class CurhatController
             "is_anonymous" => [
                 "boolean" => "is_anonymous field must be a boolean",
                 "required" => "is_anonymous field must exist",
+            ],
+
+            "topic" => [
+                "string" => "topic field must be a string",
+                "required" => "topic field must exist",
             ],
 
             "user_id" => [
