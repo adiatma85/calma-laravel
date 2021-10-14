@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistCont
 use App\Http\Controllers\Api\V1\Guest\MusicController as ApiGuestMusicController;
 use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatController;
 use App\Http\Controllers\Api\V1\Guest\CommentController as ApiGuestCommentController;
+use App\Http\Controllers\Api\V1\Guest\CurhatanLikeController as ApiGuestCurhatanLikesController;
 use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
 
 // Models
@@ -93,6 +94,13 @@ Route::prefix('v1')
                     ->as('comment.')
                     ->group(function () {
                         Route::post('/', [ApiGuestCommentController::class, 'store'])->name('store');
+                    });
+
+                // Curhat Likes
+                Route::prefix('likes')
+                    ->as('like.')
+                    ->group(function () {
+                        Route::put('/', [ApiGuestCurhatanLikesController::class, 'like'])->name('like');
                     });
 
                 // Mood Tracks

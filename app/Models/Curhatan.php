@@ -51,6 +51,11 @@ class Curhatan extends Model implements HasMedia
         return $this->hasMany(Comment::class, 'curhatan_id');
     }
 
+    public function curhat_like()
+    {
+        return $this->hasMany(CurhatLikes::class, "curhatan_id");
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

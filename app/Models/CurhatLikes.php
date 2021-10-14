@@ -9,15 +9,20 @@ class CurhatLikes extends Model
 {
     use HasFactory;
 
-    protected $table = "curhat_likes";
+    protected $table = "curhat_likes_user";
+
+    protected $fillable = [
+        "user_id",
+        "curhatan_id",
+    ];
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function curhatan()
     {
-        return $this->belongsToMany(Curhatan::class, 'curhatan_id');
+        return $this->belongsTo(Curhatan::class, 'curhatan_id');
     }
 }

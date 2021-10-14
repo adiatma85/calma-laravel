@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function curhat_like()
     {
-        return $this->belongsToMany(CurhatLikes::class);
+        return $this->hasMany(CurhatLikes::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

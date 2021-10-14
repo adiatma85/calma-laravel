@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1\Guest;
 
-use App\Models\User;
+use App\Models\CurhatLikes;
 use App\Http\Controllers\Traits\ResponseTrait;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +15,29 @@ class CurhatanLikeController
 
     public function like(Request $request)
     {
-        User::where('id', $request->user_id)->curhat_like()->syncWithoudDetaching([$request->curhatan_id]);
+
+        $validator = Validator::make($request->all(), [
+            "user_id" => "required",
+            "curhatan_id" => "required",
+        ], [
+            "user_id" => [
+                "required" => "user_id field must exist",
+            ],
+            "curhatan_id" => [
+                "required" => "curhatan_id field must exist",
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->badRequestFailResponse($validator);
+        }
+
+        $likeItem = CurhatLikes::where($request->all());
+        if ($likeItem->exists()) {
+            $likeItem->delete();
+        } else {
+            CurhatLikes::create($request->all());
+        }
         return $this->response(true, Response::HTTP_OK, "Success changing data", null);
     }
 }
