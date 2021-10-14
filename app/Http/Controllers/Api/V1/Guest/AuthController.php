@@ -24,7 +24,8 @@ class AuthController
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            "username" => 'required|string'
         ], [
             "name" => [
                 "string" => "name field must string",
@@ -39,13 +40,19 @@ class AuthController
                 "required" => "password field must exist",
                 "min" => "password have minimum 8 character"
             ],
+            "username" => [
+                "string" => "username field must string",
+                "required" => "username field must exist",
+            ],
         ]);
 
         if ($validator->fails()) {
             return $this->badRequestFailResponse($validator);
         }
 
-        $condition = User::where('email', $request->email)->exists();
+        $condition = User::where('email', $request->email)
+            ->orWhere('username', $request->username)
+            ->exists();
         if ($condition) {
             return $this->response(false, Response::HTTP_CONFLICT, "Email is already exists", null);
         }
@@ -60,7 +67,7 @@ class AuthController
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
         ], [
             "email" => [
                 "email" => "email field must email",
@@ -77,7 +84,9 @@ class AuthController
             return $this->badRequestFailResponse($validator);
         }
 
-        $user = User::where('email', $request->email);
+        $user = User::where('email', $request->email)
+            ->orWhere('username', $request->username)
+            ;
         if ($user->exists()) {
             $thisUser = $user->first();
             if (Hash::check($request->password, $thisUser->password)) {
