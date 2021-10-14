@@ -45,11 +45,17 @@ class CurhatController
 
         $validator = Validator::make($request->all(), [
             "content" => "required|string",
-            "user_id" => "required"
+            "is_anonymous" => "required|boolean",
+            "user_id" => "required",
         ], [
             "content" => [
                 "string" => "content field must be a string",
                 "required" => "content field must exist",
+            ],
+
+            "is_anonymous" => [
+                "boolean" => "is_anonymous field must be a boolean",
+                "required" => "is_anonymous field must exist",
             ],
 
             "user_id" => [
@@ -70,11 +76,16 @@ class CurhatController
     {
         $validator = Validator::make($request->all(), [
             "content" => "string",
-            "user_id" => "required"
+            "is_anonymous" => "boolean",
+            "user_id" => "required",
         ], [
             "content" => [
                 "string" => "content field must be a string",
                 "required" => "content field must exist",
+            ],
+
+            "is_anonymous" => [
+                "boolean" => "is_anonymous field must be a boolean",
             ],
 
             "user_id" => [

@@ -28,6 +28,7 @@ class Curhatan extends Model implements HasMedia
         'tittle',
         'content',
         'topic',
+        'is_anonymous',
         'user_id',
         'created_at',
         'updated_at',
@@ -53,5 +54,13 @@ class Curhatan extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getIsAnonymousAttribute($value)
+    {
+        if ($value) {
+            return true;
+        }
+        return false;
     }
 }
