@@ -17,6 +17,31 @@ class MoodTrackerController
 
     use ResponseTrait;
 
+    // HOME
+    public function home(Request $request)
+    {
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+
+        $todayMoodtracker = MoodTracker::where('user_id', $request->user_id)
+            ->where('updated_at', "<=", $tomorrow)
+            ->where("updated_at", ">=", $today);
+        $moodTracker = null;
+        if ($todayMoodtracker->exists()) {
+            $moodTracker = $todayMoodtracker->first();
+        }
+
+        // Rekomendasi musik
+        // Untuk saat ini random dulu
+        $randomPlaylist = Playlist::inRandomOrder()->limit(5)->get();
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
+            "is_today_finished" => $moodTracker ? true : false,
+            "mood" => $moodTracker->mood ?? null,
+            "reasons" => $moodTracker->reasons ?? null,
+            "reccomended_playlists" => $randomPlaylist
+        ]);
+    }
 
     // POST
     public function store(Request $request)
@@ -43,6 +68,17 @@ class MoodTrackerController
             return $this->badRequestFailResponse($validator);
         }
 
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+
+        $todayMoodtracker = MoodTracker::where('user_id', $request->user_id)
+            ->where('updated_at', "<=", $tomorrow)
+            ->where("updated_at", ">=", $today);
+
+        if ($todayMoodtracker->exists()) {
+            $todayMoodtracker->delete();
+        }
+        
         $moodTracker = MoodTracker::create($request->except('reasons'));
         foreach ($request->reasons as $reason) {
             MoodTrackerReason::create([
@@ -72,11 +108,11 @@ class MoodTrackerController
             return $this->badRequestFailResponse($validator);
         }
 
-        $date_begin = Carbon::make($request->date_begin);
-        $date_end = $date_begin->addDay();
+        $date_begin = Carbon::today();
+        $date_end = Carbon::tomorrow();
         $moodTracker = MoodTracker::where('user_id', $request->user_id)
-            ->where('created_at', ">=", $date_begin)
-            ->where('created_at', "<=", $date_end)
+            ->where('updated_at', ">=", $date_begin)
+            ->where('updated_at', "<=", $date_end)
             ->first();
 
         if (!$moodTracker) {
@@ -89,6 +125,7 @@ class MoodTrackerController
 
         // Response
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
+            "is_today_finished" => true,
             "mood" => $moodTracker->mood,
             "reasons" => $moodTracker->reasons,
             "reccomended_playlists" => $randomPlaylist
@@ -116,16 +153,14 @@ class MoodTrackerController
         $date_begin = Carbon::make($request->date_begin);
         $date_end = $date_begin->addDay();
         $moodTrackers = MoodTracker::where('user_id', $request->user_id)
-            ->where('created_at', ">=", $date_begin)
-            ->where('created_at', "<=", $date_end)
+            ->where('updated_at', ">=", $date_begin)
+            ->where('updated_at', "<=", $date_end)
             ->get();
 
         if (!$moodTrackers) {
             return $this->notFoundFailResponse();
         }
 
-        return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
-            
-        ]);
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", []);
     }
 }
