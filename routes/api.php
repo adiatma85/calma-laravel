@@ -108,6 +108,7 @@ Route::prefix('v1')
                     ->as('mood-track.')
                     ->group(function () {
                         Route::post('/index-harian', [ApiGuestMoodTrackerController::class, 'indexHarian'])->name('indexHarian');
+                        Route::post('/index-mingguan', [ApiGuestMoodTrackerController::class, 'indexMingguan'])->name('indexMingguan');
                         Route::get('/home', [ApiGuestMoodTrackerController::class, 'home'])->name('home'); // Ketika akan mengakses HOME saat membuka aplikasi
                         Route::post('/', [ApiGuestMoodTrackerController::class, 'store'])->name('store'); // Ketika menyimpan
                     });

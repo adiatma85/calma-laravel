@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class MoodTrackerController
@@ -78,7 +79,7 @@ class MoodTrackerController
         if ($todayMoodtracker->exists()) {
             $todayMoodtracker->delete();
         }
-        
+
         $moodTracker = MoodTracker::create($request->except('reasons'));
         foreach ($request->reasons as $reason) {
             MoodTrackerReason::create([
@@ -94,13 +95,9 @@ class MoodTrackerController
     {
         $validator = Validator::make($request->all(), [
             "user_id" => "required",
-            "date_begin" => "required"
         ], [
             "user_id" => [
                 "required" => "user_id must exist",
-            ],
-            "date_begin" => [
-                "required" => "date_begin must exist",
             ],
         ]);
 
@@ -126,9 +123,9 @@ class MoodTrackerController
         // Response
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
             "is_today_finished" => true,
-            "mood" => $moodTracker->mood,
-            "reasons" => $moodTracker->reasons,
-            "reccomended_playlists" => $randomPlaylist
+            "mood" => $moodTracker->mood ?? null,
+            "reasons" => $moodTracker->reasons ?? null,
+            "reccomended_playlists" => $randomPlaylist,
         ]);
     }
 
@@ -150,17 +147,39 @@ class MoodTrackerController
             return $this->badRequestFailResponse($validator);
         }
 
-        $date_begin = Carbon::make($request->date_begin);
-        $date_end = $date_begin->addDay();
+        $date_begin = Carbon::make($request->date_begin)->addDay(-1);
+        $date_end = Carbon::make($request->date_begin)->addWeek();
         $moodTrackers = MoodTracker::where('user_id', $request->user_id)
+            // ->orderBy('updated_at', 'DESC')
             ->where('updated_at', ">=", $date_begin)
             ->where('updated_at', "<=", $date_end)
+            ->with(['reasons'])
             ->get();
+
 
         if (!$moodTrackers) {
             return $this->notFoundFailResponse();
         }
 
-        return $this->response(true, Response::HTTP_OK, "Success fetching resources", []);
+        // Experimental for mood tracker
+        for ($i = $date_begin->addDay(); $i <= $date_end; $i->addDay()) {
+            $condition = $moodTrackers->first(function ($item) use ($i) {
+                return $item->id == 1;
+            });
+            if (!$condition) {
+                $moodTrackers->push([
+                    "mood" => 0,
+                    "created_at" => $i,
+                    "updated_at" => $i
+                ]);
+            }
+        }
+
+        // return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
+        //     "moodTrackers" => $moodTrackers,
+        //     // "anggota1" => $moodTrackers[0],
+        // ]);
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('moodTrackers'));
     }
 }
