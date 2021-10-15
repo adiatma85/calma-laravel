@@ -161,25 +161,61 @@ class MoodTrackerController
             return $this->notFoundFailResponse();
         }
 
+        $accReasons = collect([]);
+
         // Experimental for mood tracker
         for ($i = $date_begin->addDay(); $i <= $date_end; $i->addDay()) {
-            $condition = $moodTrackers->first(function ($item) use ($i) {
-                return $item->id == 1;
+            $existedItem = $moodTrackers->first(function ($item) use ($i) {
+                return
+                    $item->created_at >= $i->format('Y-m-d H:i:s')
+                    &&
+                    $item->created_at <= $i->copy()->addDay()->format('Y-m-d H:i:s');
             });
-            if (!$condition) {
-                $moodTrackers->push([
+
+            if (!$existedItem) {
+                $copyOfIndex = $i->copy();
+                $newItem = [
+                    "created_at" => $copyOfIndex->format("Y-m-d H:i:s"),
+                    "updated_at" => $copyOfIndex->format("Y-m-d H:i:s"),
                     "mood" => 0,
-                    "created_at" => $i,
-                    "updated_at" => $i
-                ]);
+                    "reasons" => [],
+                ];
+                $moodTrackers = $moodTrackers->push((object)$newItem);
+                continue;
             }
+            $accReasons->push(...$existedItem->reasons);
         }
 
-        // return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
-        //     "moodTrackers" => $moodTrackers,
-        //     // "anggota1" => $moodTrackers[0],
-        // ]);
+        // Sorted Moodtracker
+        $sortedMoodTracker = $moodTrackers
+            ->sortBy('created_at')
+            ->values()
+            ->all();
 
-        return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('moodTrackers'));
+        // Sorted Mood
+        $sortedMood = $moodTrackers->countBy(function ($item) {
+            switch ($item->mood) {
+                case '0':
+                    return "Buruk";
+                    break;
+
+                case '1':
+                    return "Biasa";
+                    break;
+
+                case '2':
+                    return "Baik";
+                    break;
+            }
+        });
+
+        // Sorted Accumulated Reason
+        $listAccReason = $accReasons->countBy('reason');
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
+            'moodTrackers' => $sortedMoodTracker,
+            'sortedMood' => $sortedMood,
+            'listAccReason' => $listAccReason,
+        ]);
     }
 }
