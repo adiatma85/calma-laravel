@@ -31,6 +31,7 @@ class Playlist extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
+        'duration',
         'topic_id',
         'created_at',
         'updated_at',
