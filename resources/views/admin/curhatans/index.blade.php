@@ -29,6 +29,9 @@
                             {{ trans('cruds.curhatan.fields.user') }}
                         </th>
                         <th>
+                            {{ trans('cruds.curhatan.fields.category') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -47,6 +50,14 @@
                             </select>
                         </td>
                         <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                <option value="Pekerjaan">Pekerjaan</option>
+                                <option value="Ekonomi">Ekonomi</option>
+                                <option value="Asmara">Asmara</option>
+                            </select>
+                        </td>
+                        <td>
                         </td>
                     </tr>
                 </thead>
@@ -61,6 +72,9 @@
                             </td>
                             <td>
                                 {{ $curhatan->user->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $curhatan->category ?? '' }}
                             </td>
                             <td>
                                 @can('curhatan_show')

@@ -18,6 +18,18 @@
                 <span class="help-block">{{ trans('cruds.curhatan.fields.content_helper') }}</span>
             </div>
             <div class="form-group">
+              <label class="required" for="category">{{ trans('cruds.curhatan.fields.category') }}</label>
+              <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="category" id="category" required>
+                  <option value="Pekerjaan">Pekerjaan</option>
+                  <option value="Ekonomi">Ekonomi</option>
+                  <option value="Asmara">Asmara</option>
+              </select>
+              @if($errors->has('user'))
+                  <span class="text-danger">{{ $errors->first('user') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.curhatan.fields.category_helper') }}</span>
+          </div>
+            <div class="form-group">
                 <label class="required" for="user_id">{{ trans('cruds.curhatan.fields.user') }}</label>
                 <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
                     @foreach($users as $id => $entry)

@@ -16,6 +16,12 @@ class Curhatan extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
+    public const CATEGORY_SELECT = [
+        "Pekerjaan" => "Pekerjaan",
+        "Ekonomi" => "Ekonomi",
+        "Asmara" => "Asmara"
+    ];    
+
     public $table = 'curhatans';
 
     protected $dates = [
@@ -27,7 +33,7 @@ class Curhatan extends Model implements HasMedia
     protected $fillable = [
         'tittle',
         'content',
-        'topic',
+        'category',
         'is_anonymous',
         'user_id',
         'created_at',

@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.curhatan.fields.category') }}
+                        </th>
+                        <td>
+                            {!! $curhatan->category !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.curhatan.fields.user') }}
                         </th>
                         <td>

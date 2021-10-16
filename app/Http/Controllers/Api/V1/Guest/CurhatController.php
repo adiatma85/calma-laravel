@@ -24,9 +24,9 @@ class CurhatController
     }
 
     // GET
-    public function getIndexFromTopic($topicName)
+    public function getIndexFromTopic($categoryName)
     {
-        $curhatans = Curhatan::with(['user'])->where('topic', $topicName)->get();
+        $curhatans = Curhatan::with(['user'])->where('category', $categoryName)->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
