@@ -168,35 +168,11 @@
 
                             </i>
                             <p>
-                                {{ trans('cruds.journeyGroup.title') }}
+                                Mood Tracker Group
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @can('journey_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.journeys.index") }}" class="nav-link {{ request()->is("admin/journeys") || request()->is("admin/journeys/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-asterisk">
-
-                                        </i>
-                                        <p>
-                                            {{ trans('cruds.journey.title') }}
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('journal_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.journals.index") }}" class="nav-link {{ request()->is("admin/journals") || request()->is("admin/journals/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-book-open">
-
-                                        </i>
-                                        <p>
-                                            {{ trans('cruds.journal.title') }}
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
                             @can('mood_tracker_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.mood-trackers.index") }}" class="nav-link {{ request()->is("admin/mood-trackers") || request()->is("admin/mood-trackers/*") ? "active" : "" }}">
@@ -217,6 +193,45 @@
                                         </i>
                                         <p>
                                             {{ trans('cruds.moodTrackerReason.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('journey_group_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/journeys*") ? "menu-open" : "" }} {{ request()->is("admin/journals*") ? "menu-open" : "" }} {{ request()->is("admin/mood-trackers*") ? "menu-open" : "" }} {{ request()->is("admin/mood-tracker-reasons*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-align-justify">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.journeyGroup.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('journal_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.journals.index") }}" class="nav-link {{ request()->is("admin/journals") || request()->is("admin/journals/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-book-open">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.journal.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('journey_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.journeys.index") }}" class="nav-link {{ request()->is("admin/journeys") || request()->is("admin/journeys/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-asterisk">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.journey.title') }}
                                         </p>
                                     </a>
                                 </li>
