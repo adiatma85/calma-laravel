@@ -36,12 +36,12 @@
                 <span class="help-block">{{ trans('cruds.playlist.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="duration">{{ trans('cruds.playlist.fields.duration') }}</label>
-                <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : '' }}" type="text" name="duration" id="duration" value="{{ old('duration', $playlist->duration ?? "") }}" required>
-                @if($errors->has('duration'))
-                    <span class="text-danger">{{ $errors->first('duration') }}</span>
+                <label class="required" for="quantity">{{ trans('cruds.playlist.fields.quantity') }}</label>
+                <input class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" type="text" name="quantity" id="quantity" value="{{ old('quantity', $playlist->quantity ?? "") }}" required>
+                @if($errors->has('quantity'))
+                    <span class="text-danger">{{ $errors->first('quantity') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.playlist.fields.duration_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.playlist.fields.quantity_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="topic_id">{{ trans('cruds.playlist.fields.topic') }}</label>

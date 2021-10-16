@@ -41,10 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.playlist.fields.duration') }}
+                            {{ trans('cruds.playlist.fields.quantity') }}
                         </th>
                         <td>
-                            {!! $playlist->duration !!}
+                            {!! $playlist->quantity !!}
                         </td>
                     </tr>
                     <tr>

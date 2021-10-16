@@ -113,6 +113,8 @@ return [
             'topic_helper'       => ' ',
             'duration'           => "Duration",
             'duration_helper'    => ' ',
+            'quantity'           => 'Banyak lagu',
+            'quantity_helper'    => ' ',
         ],
     ],
     'musicTopic' => [

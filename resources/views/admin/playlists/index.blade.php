@@ -32,7 +32,7 @@
                             {{ trans('cruds.playlist.fields.image') }}
                         </th>
                         <th>
-                            {{ trans('cruds.playlist.fields.duration') }}
+                            {{ trans('cruds.playlist.fields.quantity') }}
                         </th>
                         <th>
                             {{ trans('cruds.playlist.fields.topic') }}
@@ -87,7 +87,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{$playlist->duration ?? ""}}
+                                {{$playlist->quantity ?? ""}}
                             </td>
                             <td>
                                 {{ $playlist->topic->name ?? '' }}
