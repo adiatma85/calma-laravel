@@ -26,10 +26,7 @@
                             {{ trans('cruds.journal.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.journal.fields.category') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.journal.fields.journey') }}
+                            Nama Journal
                         </th>
                         <th>
                             &nbsp;
@@ -71,10 +68,7 @@
                                 {{ $journal->id ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Journal::CATEGORY_SELECT[$journal->category] ?? '' }}
-                            </td>
-                            <td>
-                                {{ $journal->journey->name ?? '' }}
+                                {{ $journal->name ?? '' }}
                             </td>
                             <td>
                                 @can('journal_show')

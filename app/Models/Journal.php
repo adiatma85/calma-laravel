@@ -16,13 +16,6 @@ class Journal extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
-    public const CATEGORY_SELECT = [
-        'Suka'           => 'Suka',
-        'Senang'         => 'Senang',
-        'Sedih'          => 'Sedih',
-        'Belum Tercapai' => 'Belum Tercapai',
-    ];
-
     public $table = 'journals';
 
     protected $dates = [
@@ -32,9 +25,7 @@ class Journal extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'content',
-        'category',
-        'journey_id',
+        'name',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -25,29 +25,14 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.journal.fields.content') }}
+                            {{ trans('cruds.journal.fields.name') }}
                         </th>
                         <td>
-                            {!! $journal->content !!}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.journal.fields.category') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Journal::CATEGORY_SELECT[$journal->category] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.journal.fields.journey') }}
-                        </th>
-                        <td>
-                            {{ $journal->journey->name ?? '' }}
+                            {{ $journal->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>
+                {{-- INI NANTI ADALAH LIST PERTANYAAN YANG BERKAITAN! --}}
             </table>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.journals.index') }}">

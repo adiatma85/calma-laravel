@@ -193,6 +193,8 @@ return [
             'deleted_at_helper' => ' ',
             'journey'           => 'Journey',
             'journey_helper'    => ' ',
+            'name'              => 'Nama Journal',
+            'name_helper'       => ' ',
         ],
     ],
     'moodTracker' => [

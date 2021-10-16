@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.playlist.fields.duration') }}
+                        </th>
+                        <td>
+                            {!! $playlist->duration !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.playlist.fields.topic') }}
                         </th>
                         <td>

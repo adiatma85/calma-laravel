@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.musicItem.fields.duration') }}
+                        </th>
+                        <td>
+                            {{ $musicItem->duration ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.musicItem.fields.playlist') }}
                         </th>
                         <td>
