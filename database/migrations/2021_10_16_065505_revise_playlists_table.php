@@ -14,7 +14,7 @@ class RevisePlaylistsTable extends Migration
     public function up()
     {
         Schema::table('playlists', function (Blueprint $table) {
-            $table->rename('duration', 'quantity');
+            $table->renameColumn('duration', 'quantity');
         });
     }
 
@@ -26,7 +26,7 @@ class RevisePlaylistsTable extends Migration
     public function down()
     {
         Schema::table('playlists', function (Blueprint $table) {
-            $table->rename('quantity', 'duration');
+            $table->renameColumn('quantity', 'duration');
         });
     }
 }
