@@ -32,7 +32,27 @@
                         </td>
                     </tr>
                 </tbody>
-                {{-- INI NANTI ADALAH LIST PERTANYAAN YANG BERKAITAN! --}}
+            </table>
+            <h2>Daftar-daftar pertanyaan</h2>
+            @php
+                $questionIndex = 1;    
+            @endphp
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    @foreach ($journal->questions as $questionItem)
+                        <tr>
+                            <th>
+                                Pertanyaan nomor {{ $questionIndex }}
+                            </th>
+                            <td>
+                                {{ $questionItem->question ?? "" }}
+                            </td>
+                        </tr>
+                        @php
+                            $questionIndex++;
+                        @endphp
+                    @endforeach
+                </tbody>
             </table>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.journals.index') }}">

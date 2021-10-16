@@ -41,22 +41,6 @@
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
-                        {{-- <td>
-                            <select class="search" strict="true">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach(App\Models\Journal::CATEGORY_SELECT as $key => $item)
-                                    <option value="{{ $item }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </td> --}}
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($journeys as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
                         <td>
                         </td>
                     </tr>

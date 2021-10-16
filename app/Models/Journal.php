@@ -42,6 +42,11 @@ class Journal extends Model implements HasMedia
         return $this->belongsTo(Journey::class, 'journey_id');
     }
 
+    public function questions()
+    {
+        return $this->hasMany(JournalQuestion::class, 'journal_id');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

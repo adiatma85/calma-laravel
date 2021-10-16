@@ -73,7 +73,7 @@ class JournalController extends Controller
     {
         abort_if(Gate::denies('journal_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $journal->load('journey');
+        $journal->load('questions');
 
         return view('admin.journals.show', compact('journal'));
     }
