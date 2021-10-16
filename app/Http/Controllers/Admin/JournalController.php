@@ -32,10 +32,8 @@ class JournalController extends Controller
     public function create()
     {
         abort_if(Gate::denies('journal_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $journeys = Journey::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.journals.create', compact('journeys'));
+        
+        return view('admin.journals.create');
     }
 
     public function store(StoreJournalRequest $request)

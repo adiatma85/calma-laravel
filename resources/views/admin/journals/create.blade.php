@@ -10,14 +10,6 @@
         <form method="POST" action="{{ route("admin.journals.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="content">{{ trans('cruds.journal.fields.content') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" name="content" id="content">{!! old('content') !!}</textarea>
-                @if($errors->has('content'))
-                    <span class="text-danger">{{ $errors->first('content') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.journal.fields.content_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.journal.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
@@ -25,31 +17,6 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.journal.fields.name_helper') }}</span>
             </div>
-            {{-- <div class="form-group">
-                <label>{{ trans('cruds.journal.fields.category') }}</label>
-                <select class="form-control {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category" id="category">
-                    <option value disabled {{ old('category', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Journal::CATEGORY_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('category', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <span class="text-danger">{{ $errors->first('category') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.journal.fields.category_helper') }}</span>
-            </div> --}}
-            {{-- <div class="form-group">
-                <label for="journey_id">{{ trans('cruds.journal.fields.journey') }}</label>
-                <select class="form-control select2 {{ $errors->has('journey') ? 'is-invalid' : '' }}" name="journey_id" id="journey_id">
-                    @foreach($journeys as $id => $entry)
-                        <option value="{{ $id }}" {{ old('journey_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('journey'))
-                    <span class="text-danger">{{ $errors->first('journey') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.journal.fields.journey_helper') }}</span>
-            </div> --}}
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

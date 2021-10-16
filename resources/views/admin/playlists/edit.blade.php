@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="duration">{{ trans('cruds.playlist.fields.duration') }}</label>
-                <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : '' }}" type="text" name="duration" id="duration" value="{{ old('duration', {{ $playlist->duration ?? "" }}) }}" required>
+                <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : '' }}" type="text" name="duration" id="duration" value="{{ old('duration', $playlist->duration ?? "") }}" required>
                 @if($errors->has('duration'))
                     <span class="text-danger">{{ $errors->first('duration') }}</span>
                 @endif
