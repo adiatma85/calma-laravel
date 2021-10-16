@@ -21,10 +21,9 @@ class Journey extends Model
     ];
 
     protected $fillable = [
-        'name',
-        'user_id',
-        'mood_tracker_id',
-        'playlist_id',
+        'title',
+        'author',
+        'description',
         'created_at',
         'updated_at',
         'deleted_at',
