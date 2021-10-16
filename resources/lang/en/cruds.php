@@ -87,6 +87,8 @@ return [
             'deleted_at_helper' => ' ',
             'playlist'          => 'Playlist',
             'playlist_helper'   => ' ',
+            'duration'          => "Duration",
+            'duration_helper'   => ' ',
         ],
     ],
     'playlist' => [
@@ -109,6 +111,8 @@ return [
             'deleted_at_helper'  => ' ',
             'topic'              => 'Topic',
             'topic_helper'       => ' ',
+            'duration'           => "Duration",
+            'duration_helper'    => ' ',
         ],
     ],
     'musicTopic' => [

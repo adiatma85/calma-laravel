@@ -32,6 +32,9 @@
                             {{ trans('cruds.musicItem.fields.music_file') }}
                         </th>
                         <th>
+                            {{ trans('cruds.musicItem.fields.duration') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.musicItem.fields.playlist') }}
                         </th>
                         <th>
@@ -48,6 +51,9 @@
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
+                        </td>
+                        <td>
+                            {{-- Duration --}}
                         </td>
                         <td>
                             <select class="search">
@@ -79,6 +85,9 @@
                                         {{ trans('global.view_file') }}
                                     </a>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $musicItem->duration ?? "" }}
                             </td>
                             <td>
                                 {{ $musicItem->playlist->name ?? '' }}

@@ -27,6 +27,14 @@
                 <span class="help-block">{{ trans('cruds.musicItem.fields.music_file_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="duration">{{ trans('cruds.playlist.fields.duration') }}</label>
+                <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : '' }}" type="text" name="duration" id="duration" value="{{ old('duration', '') }}" required>
+                @if($errors->has('duration'))
+                    <span class="text-danger">{{ $errors->first('duration') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.playlist.fields.duration_helper') }}</span>
+              </div>
+            <div class="form-group">
                 <label class="required" for="playlist_id">{{ trans('cruds.musicItem.fields.playlist') }}</label>
                 <select class="form-control select2 {{ $errors->has('playlist') ? 'is-invalid' : '' }}" name="playlist_id" id="playlist_id" required>
                     @foreach($playlists as $id => $entry)

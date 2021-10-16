@@ -32,6 +32,9 @@
                             {{ trans('cruds.playlist.fields.image') }}
                         </th>
                         <th>
+                            {{ trans('cruds.playlist.fields.duration') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.playlist.fields.topic') }}
                         </th>
                         <th>
@@ -42,12 +45,15 @@
                         <td>
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            {{-- <input class="search" type="text" placeholder="{{ trans('global.search') }}"> --}}
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
+                        </td>
+                        <td>
+                            {{-- Duration --}}
                         </td>
                         <td>
                             <select class="search">
@@ -79,6 +85,9 @@
                                         <img src="{{ $media->getUrl('thumb') }}">
                                     </a>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{$playlist->duration ?? ""}}
                             </td>
                             <td>
                                 {{ $playlist->topic->name ?? '' }}
