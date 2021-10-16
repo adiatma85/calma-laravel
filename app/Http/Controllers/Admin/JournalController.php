@@ -9,6 +9,7 @@ use App\Http\Requests\StoreJournalRequest;
 use App\Http\Requests\UpdateJournalRequest;
 use App\Models\Journal;
 use App\Models\Journey;
+use App\Models\JournalQuestion;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -38,12 +39,15 @@ class JournalController extends Controller
 
     public function store(StoreJournalRequest $request)
     {
-        $journal = Journal::create($request->all());
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $journal->id]);
+        $journal = Journal::create($request->only('name'));
+        if ($questions = $request->input('add_journal_questions')) {
+            foreach ($questions as $question) {
+                JournalQuestion::create([
+                    'question' => $question,
+                    'journal_id' => $journal->id,
+                ]);
+            }
         }
-
         return redirect()->route('admin.journals.index');
     }
 
