@@ -55,11 +55,9 @@ class JournalController extends Controller
     {
         abort_if(Gate::denies('journal_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $journeys = Journey::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $journal->load('questions');
 
-        $journal->load('journey');
-
-        return view('admin.journals.edit', compact('journeys', 'journal'));
+        return view('admin.journals.edit', compact('journal'));
     }
 
     public function update(UpdateJournalRequest $request, Journal $journal)
