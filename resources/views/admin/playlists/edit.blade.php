@@ -27,13 +27,22 @@
                 <span class="help-block">{{ trans('cruds.playlist.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="image">{{ trans('cruds.playlist.fields.image') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
+                <label class="required" for="rounded_image">{{ trans('cruds.playlist.fields.rounded_image') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('rounded_image') ? 'is-invalid' : '' }}" id="rounded_image-dropzone">
                 </div>
-                @if($errors->has('image'))
-                    <span class="text-danger">{{ $errors->first('image') }}</span>
+                @if($errors->has('rounded_image'))
+                    <span class="text-danger">{{ $errors->first('rounded_image') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.playlist.fields.image_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.playlist.fields.rounded_image_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="squared_image">{{ trans('cruds.playlist.fields.squared_image') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('squared_image') ? 'is-invalid' : '' }}" id="squared_image-dropzone">
+                </div>
+                @if($errors->has('squared_image'))
+                    <span class="text-danger">{{ $errors->first('squared_image') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.playlist.fields.squared_image_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="quantity">{{ trans('cruds.playlist.fields.quantity') }}</label>
@@ -134,63 +143,111 @@
 </script>
 
 <script>
-    var uploadedImageMap = {}
-Dropzone.options.imageDropzone = {
+    Dropzone.options.roundedImageDropzone = {
     url: '{{ route('admin.playlists.storeMedia') }}',
-    maxFilesize: 2, // MB
+    maxFilesize: 5, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 1,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 2,
+      size: 5,
       width: 4096,
       height: 4096
     },
     success: function (file, response) {
-      $('form').append('<input type="hidden" name="image[]" value="' + response.name + '">')
-      uploadedImageMap[file.name] = response.name
+      $('form').find('input[name="rounded_image"]').remove()
+      $('form').append('<input type="hidden" name="rounded_image" value="' + response.name + '">')
     },
     removedfile: function (file) {
-      console.log(file)
       file.previewElement.remove()
-      var name = ''
-      if (typeof file.file_name !== 'undefined') {
-        name = file.file_name
-      } else {
-        name = uploadedImageMap[file.name]
+      if (file.status !== 'error') {
+        $('form').find('input[name="rounded_image"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
       }
-      $('form').find('input[name="image[]"][value="' + name + '"]').remove()
     },
     init: function () {
-@if(isset($playlist) && $playlist->image)
-      var files = {!! json_encode($playlist->image) !!}
-          for (var i in files) {
-          var file = files[i]
+@if(isset($playlist) && $playlist->rounded_image)
+      var file = {!! json_encode($playlist->rounded_image) !!}
           this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="image[]" value="' + file.file_name + '">')
-        }
+      this.options.thumbnail.call(this, file, file.preview)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="rounded_image" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
 @endif
     },
-     error: function (file, response) {
-         if ($.type(response) === 'string') {
-             var message = response //dropzone sends it's own error messages in string
-         } else {
-             var message = response.errors.file
-         }
-         file.previewElement.classList.add('dz-error')
-         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-         _results = []
-         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-             node = _ref[_i]
-             _results.push(node.textContent = message)
-         }
+    error: function (file, response) {
+        if ($.type(response) === 'string') {
+            var message = response //dropzone sends it's own error messages in string
+        } else {
+            var message = response.errors.file
+        }
+        file.previewElement.classList.add('dz-error')
+        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+        _results = []
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            node = _ref[_i]
+            _results.push(node.textContent = message)
+        }
 
-         return _results
-     }
+        return _results
+    }
+}
+</script>
+<script>
+    Dropzone.options.squaredImageDropzone = {
+    url: '{{ route('admin.playlists.storeMedia') }}',
+    maxFilesize: 5, // MB
+    acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 1,
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 5,
+      width: 4096,
+      height: 4096
+    },
+    success: function (file, response) {
+      $('form').find('input[name="squared_image"]').remove()
+      $('form').append('<input type="hidden" name="squared_image" value="' + response.name + '">')
+    },
+    removedfile: function (file) {
+      file.previewElement.remove()
+      if (file.status !== 'error') {
+        $('form').find('input[name="squared_image"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
+      }
+    },
+    init: function () {
+@if(isset($playlist) && $playlist->squared_image)
+      var file = {!! json_encode($playlist->squared_image) !!}
+          this.options.addedfile.call(this, file)
+      this.options.thumbnail.call(this, file, file.preview)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="squared_image" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
+@endif
+    },
+    error: function (file, response) {
+        if ($.type(response) === 'string') {
+            var message = response //dropzone sends it's own error messages in string
+        } else {
+            var message = response.errors.file
+        }
+        file.previewElement.classList.add('dz-error')
+        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+        _results = []
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            node = _ref[_i]
+            _results.push(node.textContent = message)
+        }
+
+        return _results
+    }
 }
 </script>
 @endsection

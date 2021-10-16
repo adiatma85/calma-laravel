@@ -29,7 +29,10 @@
                             {{ trans('cruds.playlist.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.playlist.fields.image') }}
+                            {{ trans('cruds.playlist.fields.rounded_image') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.playlist.fields.squared_image') }}
                         </th>
                         <th>
                             {{ trans('cruds.playlist.fields.quantity') }}
@@ -51,6 +54,10 @@
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
+                            {{-- Rounded Image --}}
+                        </td>
+                        <td>
+                            {{-- Squared Image --}}
                         </td>
                         <td>
                             {{-- Duration --}}
@@ -80,11 +87,18 @@
                                 {{ $playlist->name ?? '' }}
                             </td>
                             <td>
-                                @foreach($playlist->image as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
+                                @if($playlist->rounded_image)
+                                    <a href="{{ $playlist->rounded_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $playlist->rounded_image->getUrl('thumb') }}">
                                     </a>
-                                @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                @if($playlist->squared_image)
+                                    <a href="{{ $playlist->squared_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $playlist->squared_image->getUrl('thumb') }}">
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 {{$playlist->quantity ?? ""}}

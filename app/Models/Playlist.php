@@ -19,7 +19,8 @@ class Playlist extends Model implements HasMedia
     public $table = 'playlists';
 
     protected $appends = [
-        'image',
+        'rounded_image',
+        'squared_image',
     ];
 
     protected $dates = [
@@ -49,16 +50,28 @@ class Playlist extends Model implements HasMedia
         return $this->hasMany(MusicItem::class, 'playlist_id', 'id');
     }
 
-    public function getImageAttribute()
+    public function getRoundedImageAttribute()
     {
-        $files = $this->getMedia('image');
-        $files->each(function ($item) {
-            $item->url = $item->getUrl();
-            $item->thumbnail = $item->getUrl('thumb');
-            $item->preview = $item->getUrl('preview');
-        });
+        $file = $this->getMedia('rounded_image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
 
-        return $files;
+        return $file;
+    }
+
+    public function getSquaredImageAttribute()
+    {
+        $file = $this->getMedia('squared_image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
     }
 
     public function topic()

@@ -41,6 +41,30 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.playlist.fields.rounded_image') }}
+                        </th>
+                        <td>
+                            @if($playlist->rounded_image)
+                                <a href="{{ $playlist->rounded_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $playlist->rounded_image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.playlist.fields.squared_image') }}
+                        </th>
+                        <td>
+                            @if($playlist->squared_image)
+                                <a href="{{ $playlist->squared_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $playlist->squared_image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.playlist.fields.quantity') }}
                         </th>
                         <td>

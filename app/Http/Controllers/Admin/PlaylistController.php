@@ -42,8 +42,12 @@ class PlaylistController extends Controller
     {
         $playlist = Playlist::create($request->all());
 
-        foreach ($request->input('image', []) as $file) {
-            $playlist->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
+        if ($request->input('rounded_image', false)) {
+            $playlist->addMedia(storage_path('tmp/uploads/' . basename($request->input('rounded_image'))))->toMediaCollection('rounded_image');
+        }
+
+        if ($request->input('squared_image', false)) {
+            $playlist->addMedia(storage_path('tmp/uploads/' . basename($request->input('squared_image'))))->toMediaCollection('squared_image');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -68,18 +72,26 @@ class PlaylistController extends Controller
     {
         $playlist->update($request->all());
 
-        if (count($playlist->image) > 0) {
-            foreach ($playlist->image as $media) {
-                if (!in_array($media->file_name, $request->input('image', []))) {
-                    $media->delete();
+        if ($request->input('rounded_image', false)) {
+            if (!$playlist->rounded_image || $request->input('rounded_image') !== $playlist->rounded_image->file_name) {
+                if ($playlist->rounded_image) {
+                    $playlist->rounded_image->delete();
                 }
+                $playlist->addMedia(storage_path('tmp/uploads/' . basename($request->input('rounded_image'))))->toMediaCollection('rounded_image');
             }
+        } elseif ($playlist->rounded_image) {
+            $playlist->rounded_image->delete();
         }
-        $media = $playlist->image->pluck('file_name')->toArray();
-        foreach ($request->input('image', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                $playlist->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
+
+        if ($request->input('squared_image', false)) {
+            if (!$playlist->squared_image || $request->input('squared_image') !== $playlist->squared_image->file_name) {
+                if ($playlist->squared_image) {
+                    $playlist->squared_image->delete();
+                }
+                $playlist->addMedia(storage_path('tmp/uploads/' . basename($request->input('squared_image'))))->toMediaCollection('squared_image');
             }
+        } elseif ($playlist->squared_image) {
+            $playlist->squared_image->delete();
         }
 
         return redirect()->route('admin.playlists.index');
