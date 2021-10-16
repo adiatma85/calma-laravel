@@ -11,14 +11,6 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label for="content">{{ trans('cruds.journal.fields.content') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" name="content" id="content">{!! old('content', $journal->content) !!}</textarea>
-                @if($errors->has('content'))
-                    <span class="text-danger">{{ $errors->first('content') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.journal.fields.content_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.journal.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $journal->name ?? '') }}" required>
                 @if($errors->has('name'))
@@ -28,10 +20,40 @@
             </div>
             <h3>Soal yang terdaftar:</h3>
             <div class="table table-bordered table-striped">
+              <div id="appendHiddenElement">
+
+              </div>
               @foreach ($journal->questions as $questionItem)
                   {{-- Question item goes here --}}
+                  <div class="form-group col-md-12" id="existing-field-{{$questionItem->id}}">
+                    <div class="row">
+                      <div class="col-md 11">
+                        <input type="text" name="existingQuestion[]" id="existingQuestion-{{$questionItem->id}}" class="form-control" placeholder="Pertanyaan" value="{{ $questionItem->question ?? '' }}">
+                      </div>
+                      <div class="col-md-1">
+                        <button class="btn btn-warning btn-block btn-existing-question" id="removeExistingSign-{{$questionItem->id ?? ''}}">
+                          <i class="fas fa-times-circle"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                   {{-- <h1>Testing</h1> --}}
               @endforeach
+            </div>
+            {{-- Tambah pertanyaan di bawahnya --}}
+            <div class="form-group">
+              <div class="col-12">
+                <label for="">Daftar-daftar pertanyaan</label>
+                <div class="row" id="addFieldAppend">
+
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-info btn-block" id="addFieldButton">
+                    Tambahkan pertanyaan
+                    <i class="fa fa-plus-circle ml-2"></i>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -123,6 +145,9 @@
               index++;
           });
 
+          // Listener to cross button of existing question
+          $(".btn-existing-question").click(removeExistingQuestion);
+
           // Helper dari #addFieldButton onClick (adder)
           function appendElement(numerical){
               $org = `<div class='form-group col-md-12' id='field-${numerical}'>` +
@@ -151,7 +176,29 @@
               let element = document.getElementById(`field-${number}`);
               element.remove();
               index--;
-          } 
+          }
+
+          // Listener dari remover existing fieldbutton
+          function removeExistingQuestion(event){
+            event.preventDefault();
+            if (event.target !== this) {
+                  return;
+              }
+            let removeSignId = event.target.id
+            let number = removeSignId.split("-")[1];
+            let element = document.getElementById(`existing-field-${number}`);
+            element.remove();
+
+            // Call to append hidden element
+            $("#appendHiddenElement").append(appendHiddenElement(number));
+          }
+
+          // Append Hidden element
+          function appendHiddenElement(numerical){
+            $org = 
+              `<input type='hidden' name='removed_questions[]' value='${numerical}'>`;
+              return $org;
+          }
       });
   </script>
 

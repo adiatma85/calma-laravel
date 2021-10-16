@@ -62,7 +62,24 @@ class JournalController extends Controller
 
     public function update(UpdateJournalRequest $request, Journal $journal)
     {
-        $journal->update($request->all());
+        $journal->update($request->only('name'));
+
+        // Remove Journal Question Id
+        if ($removedQuestions = $request->input('removed_questions')) {
+            foreach ($removedQuestions as $questionId) {
+                JournalQuestion::where('id', $questionId)->delete();
+            }
+        }
+
+        // Add Journal Question
+        if ($questions = $request->input('add_journal_questions')) {
+            foreach ($questions as $question) {
+                JournalQuestion::create([
+                    'question' => $question,
+                    'journal_id' => $journal->id,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.journals.index');
     }

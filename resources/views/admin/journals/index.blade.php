@@ -49,7 +49,6 @@
                     @foreach($journals as $key => $journal)
                         <tr data-entry-id="{{ $journal->id }}">
                             <td>
-
                             </td>
                             <td>
                                 {{ $journal->id ?? '' }}
