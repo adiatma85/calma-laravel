@@ -25,34 +25,38 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.journey.fields.name') }}
+                            {{ trans('cruds.journey.fields.title') }}
                         </th>
                         <td>
-                            {{ $journey->name }}
+                            {{ $journey->title }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.journey.fields.user') }}
+                            {{ trans('cruds.journey.fields.author') }}
                         </th>
                         <td>
-                            {{ $journey->user->name ?? '' }}
+                            {{ $journey->author }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.journey.fields.mood_tracker') }}
+                            {{ trans('cruds.journey.fields.image') }}
                         </th>
                         <td>
-                            {{ $journey->mood_tracker->mood ?? '' }}
+                            @if($journey->image)
+                                <a href="{{ $journey->image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $journey->image->getUrl('thumb') }}">
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.journey.fields.playlist') }}
+                            {{ trans('cruds.journey.fields.description') }}
                         </th>
                         <td>
-                            {{ $journey->playlist->name ?? '' }}
+                            {!! $journey->description !!}
                         </td>
                     </tr>
                 </tbody>

@@ -6,13 +6,21 @@ use \DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Journey extends Model
+class Journey extends Model implements HasMedia
 {
     use SoftDeletes;
+    use InteractsWithMedia;
     use HasFactory;
 
     public $table = 'journeys';
+
+    protected $appends = [
+        'image',
+    ];
 
     protected $dates = [
         'created_at',
@@ -29,19 +37,22 @@ class Journey extends Model
         'deleted_at',
     ];
 
-    public function user()
+    public function registerMediaConversions(Media $media = null): void
     {
-        return $this->belongsTo(User::class, 'user_id');
+        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
+        $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function mood_tracker()
+    public function getImageAttribute()
     {
-        return $this->belongsTo(MoodTracker::class, 'mood_tracker_id');
-    }
+        $file = $this->getMedia('image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
 
-    public function playlist()
-    {
-        return $this->belongsTo(Playlist::class, 'playlist_id');
+        return $file;
     }
 
     protected function serializeDate(DateTimeInterface $date)

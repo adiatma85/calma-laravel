@@ -26,16 +26,16 @@
                             {{ trans('cruds.journey.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.journey.fields.name') }}
+                            {{ trans('cruds.journey.fields.title') }}
                         </th>
                         <th>
-                            {{ trans('cruds.journey.fields.user') }}
+                            {{ trans('cruds.journey.fields.author') }}
                         </th>
                         <th>
-                            {{ trans('cruds.journey.fields.mood_tracker') }}
+                            {{ trans('cruds.journey.fields.image') }}
                         </th>
                         <th>
-                            {{ trans('cruds.journey.fields.playlist') }}
+                            {{ trans('cruds.journey.fields.description') }}
                         </th>
                         <th>
                             &nbsp;
@@ -51,28 +51,13 @@
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($users as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($mood_trackers as $key => $item)
-                                    <option value="{{ $item->mood }}">{{ $item->mood }}</option>
-                                @endforeach
-                            </select>
+                            {{-- Image --}}
                         </td>
                         <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($playlists as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
                         </td>
@@ -88,16 +73,20 @@
                                 {{ $journey->id ?? '' }}
                             </td>
                             <td>
-                                {{ $journey->name ?? '' }}
+                                {{ $journey->title ?? '' }}
                             </td>
                             <td>
-                                {{ $journey->user->name ?? '' }}
+                                {{ $journey->author ?? '' }}
                             </td>
                             <td>
-                                {{ $journey->mood_tracker->mood ?? '' }}
+                                @if($journey->image)
+                                <a href="{{ $journey->image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $journey->image->getUrl('thumb') }}">
+                                </a>
+                            @endif
                             </td>
                             <td>
-                                {{ $journey->playlist->name ?? '' }}
+                                {!! $journey->description ?? '' !!}
                             </td>
                             <td>
                                 @can('journey_show')

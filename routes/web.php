@@ -108,6 +108,8 @@ Route::prefix('admin')
 
         // Journey
         Route::delete('journeys/destroy', [AdminJourneyController::class, 'massDestroy'])->name('journeys.massDestroy');
+        Route::post('journeys/media', [AdminJourneyController::class, 'storeMedia'])->name('journeys.storeMedia');
+        Route::post('journeys/ckmedia', [AdminJourneyController::class, 'storeCKEditorImages'])->name('journeys.storeCKEditorImages');
         Route::resource('journeys', AdminJourneyController::class);
     });
 

@@ -13,7 +13,7 @@ class CreateTableJourneyComponents extends Migration
      */
     public function up()
     {
-        Schema::create('table_journey_components', function (Blueprint $table) {
+        Schema::create('journey_components', function (Blueprint $table) {
             $table->id();
             $table->string('model_type')->nullable();
             $table->unsignedBigInteger('in_model_id')->nullable();
@@ -29,6 +29,6 @@ class CreateTableJourneyComponents extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_journey_components');
+        Schema::dropIfExists('journey_components');
     }
 }

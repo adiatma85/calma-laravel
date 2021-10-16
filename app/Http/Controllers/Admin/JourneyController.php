@@ -11,42 +11,42 @@ use App\Models\MoodTracker;
 use App\Models\Playlist;
 use App\Models\User;
 use Gate;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class JourneyController extends Controller
 {
+
+    use MediaUploadingTrait;
+
     public function index()
     {
         abort_if(Gate::denies('journey_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $journeys = Journey::with(['user', 'mood_tracker', 'playlist'])->get();
+        $journeys = Journey::with(['media'])->get();
 
-        $users = User::get();
-
-        $mood_trackers = MoodTracker::get();
-
-        $playlists = Playlist::get();
-
-        return view('admin.journeys.index', compact('journeys', 'users', 'mood_trackers', 'playlists'));
+        return view('admin.journeys.index', compact('journeys'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('journey_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $mood_trackers = MoodTracker::pluck('mood', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $playlists = Playlist::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.journeys.create', compact('users', 'mood_trackers', 'playlists'));
+        return view('admin.journeys.create');
     }
 
     public function store(StoreJourneyRequest $request)
     {
         $journey = Journey::create($request->all());
+
+        if ($request->input('image', false)) {
+            $journey->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $journey->id]);
+        }
 
         return redirect()->route('admin.journeys.index');
     }
@@ -55,20 +55,23 @@ class JourneyController extends Controller
     {
         abort_if(Gate::denies('journey_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $mood_trackers = MoodTracker::pluck('mood', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $playlists = Playlist::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $journey->load('user', 'mood_tracker', 'playlist');
-
-        return view('admin.journeys.edit', compact('users', 'mood_trackers', 'playlists', 'journey'));
+        return view('admin.journeys.edit', compact('journey'));
     }
 
     public function update(UpdateJourneyRequest $request, Journey $journey)
     {
         $journey->update($request->all());
+
+        if ($request->input('image', false)) {
+            if (!$journey->image || $request->input('image') !== $journey->image->file_name) {
+                if ($journey->image) {
+                    $journey->image->delete();
+                }
+                $journey->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
+            }
+        } elseif ($journey->image) {
+            $journey->image->delete();
+        }
 
         return redirect()->route('admin.journeys.index');
     }
@@ -76,8 +79,6 @@ class JourneyController extends Controller
     public function show(Journey $journey)
     {
         abort_if(Gate::denies('journey_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $journey->load('user', 'mood_tracker', 'playlist');
 
         return view('admin.journeys.show', compact('journey'));
     }
@@ -96,5 +97,17 @@ class JourneyController extends Controller
         Journey::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('journey_create') && Gate::denies('journey_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Journey();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

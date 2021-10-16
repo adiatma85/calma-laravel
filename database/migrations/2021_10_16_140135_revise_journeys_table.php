@@ -25,7 +25,8 @@ class ReviseJourneysTable extends Migration
             // Add
             $table->string('title')->nullable()->after('id');
             $table->string('author')->nullable()->after('title');
-            $table->string('description')->nullable()->after('author');
+            $table->text('description')->nullable()->after('author');
+            $table->unsignedSmallInteger('urutan')->nullable()->after('description');
         });
     }
 
@@ -50,6 +51,7 @@ class ReviseJourneysTable extends Migration
             $table->dropColumn('title');
             $table->dropColumn('author');
             $table->dropColumn('description');
+            $table->dropColumn('urutan');
         });
     }
 }
