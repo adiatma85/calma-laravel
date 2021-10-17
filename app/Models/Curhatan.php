@@ -20,9 +20,13 @@ class Curhatan extends Model implements HasMedia
         "Pekerjaan" => "Pekerjaan",
         "Ekonomi" => "Ekonomi",
         "Asmara" => "Asmara"
-    ];    
+    ];
 
     public $table = 'curhatans';
+
+    protected $appends = [
+        'like_count',
+    ];
 
     protected $dates = [
         'created_at',
@@ -64,6 +68,11 @@ class Curhatan extends Model implements HasMedia
     public function curhat_like()
     {
         return $this->hasMany(CurhatLikes::class, "curhatan_id");
+    }
+
+    public function getLikeCountAttribute()
+    {
+        return count($this->curhat_like);
     }
 
     protected function serializeDate(DateTimeInterface $date)
