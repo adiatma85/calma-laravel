@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatControll
 use App\Http\Controllers\Api\V1\Guest\CommentController as ApiGuestCommentController;
 use App\Http\Controllers\Api\V1\Guest\CurhatanLikeController as ApiGuestCurhatanLikesController;
 use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
+use App\Http\Controllers\Api\V1\Guest\JourneyController as ApiGuestJourneyController;
 
 // Models
 use App\Models\User;
@@ -121,6 +122,15 @@ Route::prefix('v1')
                         Route::post('/index-mingguan', [ApiGuestMoodTrackerController::class, 'indexMingguan'])->name('indexMingguan');
                         Route::get('/home', [ApiGuestMoodTrackerController::class, 'home'])->name('home'); // Ketika akan mengakses HOME saat membuka aplikasi
                         Route::post('/', [ApiGuestMoodTrackerController::class, 'store'])->name('store'); // Ketika menyimpan
+                    });
+
+                // Journey
+                Route::prefix('journeys')
+                    ->as('journey.')
+                    ->group(function () {
+                        Route::get('/component/{journeyId}', [ApiGuestJourneyController::class, 'getComponent'])->name('getComponent');
+                        Route::get('/{journeyId}', [ApiGuestJourneyController::class, 'show'])->name('show');
+                        Route::get('/', [ApiGuestJourneyController::class, 'index'])->name('index');
                     });
             });
     });
