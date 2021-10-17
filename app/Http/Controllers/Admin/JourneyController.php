@@ -52,7 +52,7 @@ class JourneyController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $journey->id]);
         }
 
-        // Store Journal
+        // Store Journey
         if ($itemsJournal = $request->item_journal) {
             $index = 0;
             foreach ($itemsJournal as $item) {
@@ -87,7 +87,32 @@ class JourneyController extends Controller
     {
         abort_if(Gate::denies('journey_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.journeys.edit', compact('journey'));
+        $musics = MusicItem::all();
+
+        $journals = Journal::all();
+
+        $items = [];
+        $components = $journey->components
+            ->sortBy('urutan')
+            ->values()
+            ->all();
+
+        foreach ($components as $component) {
+            switch ($component->model_type) {
+                case 'journals':
+                    $item = Journal::find($component->in_model_id);
+                    array_push($items, $item);
+                    break;
+                case 'music_items':
+                    $item = MusicItem::find($component->in_model_id);
+                    array_push($items, $item);
+                    break;
+            }
+        }
+
+        $journey->items = $items;
+
+        return view('admin.journeys.edit', compact('journey', 'journals', 'musics'));
     }
 
     public function update(UpdateJourneyRequest $request, Journey $journey)
@@ -104,6 +129,53 @@ class JourneyController extends Controller
         } elseif ($journey->image) {
             $journey->image->delete();
         }
+
+        // Remove items
+        if ($removedItems = $request->input('removed_items')) {
+            foreach ($removedItems as $questionId) {
+                JourneyComponent::where('id', $questionId)->delete();
+            }
+        }
+
+        // Store Journey
+        if ($itemsJournal = $request->item_journal) {
+            $index = 0;
+            foreach ($itemsJournal as $item) {
+                JourneyComponent::create([
+                    'model_type' => 'journals',
+                    'in_model_id' => $item,
+                    'journey_id' => $journey->id,
+                    'urutan' => $request->urutan_journal[$index],
+                ]);
+                $index++;
+            }
+        }
+
+        // Store Music
+        if ($itemsMusic = $request->item_music) {
+            $index = 0;
+            foreach ($itemsMusic as $item) {
+                JourneyComponent::create([
+                    'model_type' => 'music_items',
+                    'in_model_id' => $item,
+                    'journey_id' => $journey->id,
+                    'urutan' => $request->urutan_music[$index],
+                ]);
+                $index++;
+            }
+        }
+
+        // Add Item
+        // if ($newItems = $request->input('add_journey_items')) {
+        //     foreach ($newItems as $item) {
+        //         JourneyComponent::create([
+        //             'model_type' => 'journals',
+        //             'in_model_id' => $item,
+        //             'journey_id' => $journey->id,
+        //             'urutan' => $request->urutan_journal[$index],
+        //         ]);
+        //     }
+        // }
 
         return redirect()->route('admin.journeys.index');
     }
