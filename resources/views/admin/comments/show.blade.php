@@ -33,6 +33,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.comment.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $comment->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.comment.fields.curhatan') }}
+                        </th>
+                        <td>
+                            {{ $comment->curhatan->content ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.comment.fields.is_anonymous') }}
                         </th>
                         <td>

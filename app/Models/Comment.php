@@ -54,6 +54,16 @@ class Comment extends Model implements HasMedia
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function curhatan()
+    {
+        return $this->belongsTo(Curhatan::class, 'curhatan_id');
+    }
+
     protected function getUsernameAttribute()
     {
         $query = DB::table("users")

@@ -168,7 +168,7 @@ return [
             'category'                 => 'Kategori',
             'category_helper'          => ' ',
             'is_anonymous'             => 'Status Anonymousity',
-            'is_anonymous_helper'      => 'Status Anonymousity',
+            'is_anonymous_helper'      => '',
         ],
     ],
     'comment' => [
@@ -186,7 +186,11 @@ return [
             'deleted_at'               => 'Deleted at',
             'deleted_at_helper'        => ' ',
             'is_anonymous'             => 'Status Anonymousity',
-            'is_anonymous_helper'      => 'Status Anonymousity',
+            'is_anonymous_helper'      => '',
+            'user'                     => 'User',
+            'user_helper'              => ' ',
+            'curhatan'                 => 'Curhatan',
+            'curhatan_helper'          => ' ',
         ],
     ],
     'journeyGroup' => [

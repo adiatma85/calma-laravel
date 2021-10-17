@@ -8,6 +8,8 @@ use App\Http\Requests\MassDestroyCommentRequest;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Curhatan;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -30,7 +32,11 @@ class CommentController extends Controller
     {
         abort_if(Gate::denies('comment_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.comments.create');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $curhatans = Curhatan::pluck('content', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.comments.create', compact('users', 'curhatans'));
     }
 
     public function store(StoreCommentRequest $request)
@@ -48,7 +54,11 @@ class CommentController extends Controller
     {
         abort_if(Gate::denies('comment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.comments.edit', compact('comment'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $curhatans = Curhatan::pluck('content', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.comments.edit', compact('comment', 'users', 'curhatans'));
     }
 
     public function update(UpdateCommentRequest $request, Comment $comment)
@@ -61,6 +71,8 @@ class CommentController extends Controller
     public function show(Comment $comment)
     {
         abort_if(Gate::denies('comment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $comment->load(['user', 'curhatan']);
 
         return view('admin.comments.show', compact('comment'));
     }

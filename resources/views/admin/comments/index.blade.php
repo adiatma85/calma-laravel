@@ -64,7 +64,7 @@
                                 {{ $comment->id ?? '' }}
                             </td>
                             <td>
-                                {{ $comment->content ?? '' }}
+                                {!! $comment->content ?? '' !!}
                             </td>
                             <td>
                                 <span class="badge badge-pill badge-{{ !$comment->is_anonymous ? 'success' : 'warning' }}">
