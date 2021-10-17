@@ -81,7 +81,9 @@
                                 {{ $curhatan->category ?? '' }}
                             </td>
                             <td>
-                                {{ $category->is_anonymous ?? '' }}
+                                <span class="badge badge-pill badge-{{ !$curhatan->is_anonymous ? 'success' : 'warning' }}">
+                                    {{ !$curhatan->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                                </span>
                             </td>
                             <td>
                                 @can('curhatan_show')

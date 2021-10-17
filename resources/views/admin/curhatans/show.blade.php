@@ -44,7 +44,9 @@
                             {{ trans('cruds.curhatan.fields.is_anonymous') }}
                         </th>
                         <td>
-                            {!! $curhatan->is_anonymous !!}
+                            <span class="badge badge-pill badge-{{ !$curhatan->is_anonymous ? 'success' : 'warning' }}">
+                                {{ !$curhatan->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                            </span>
                         </td>
                     </tr>
                     <tr>

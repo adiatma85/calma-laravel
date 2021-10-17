@@ -36,7 +36,9 @@
                             {{ trans('cruds.comment.fields.is_anonymous') }}
                         </th>
                         <td>
-                            {!! $comment->is_anonymous !!}
+                            <span class="badge badge-pill badge-{{ !$comment->is_anonymous ? 'success' : 'warning' }}">
+                                {{ !$comment->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                            </span>
                         </td>
                     </tr>
                 </tbody>

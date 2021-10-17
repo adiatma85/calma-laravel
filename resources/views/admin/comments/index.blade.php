@@ -67,7 +67,9 @@
                                 {{ $comment->content ?? '' }}
                             </td>
                             <td>
-                                {{ $comment->is_anonymous ?? '' }}
+                                <span class="badge badge-pill badge-{{ !$comment->is_anonymous ? 'success' : 'warning' }}">
+                                    {{ !$comment->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                                </span>
                             </td>
                             <td>
                                 @can('comment_show')
