@@ -61,6 +61,38 @@
                     </tr>
                 </tbody>
             </table>
+            <h2>Daftar-daftar Item Journey</h2>
+            @php
+                $questionIndex = 0;    
+            @endphp
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    @foreach ($journey->components as $component)
+                        @php
+                            $routeNamePrefix = "";
+                            if ($component->model_type == 'journals') {
+                                $routeNamePrefix = "journals";
+                            } else {
+                                $routeNamePrefix = "music-items";
+                            }
+                                
+                        @endphp
+                        <tr>
+                            <th>
+                                Item nomor {{ $component->urutan }} tipe {{ \App\Models\Journey::ITEM_JOURNEY_TYPE[$component->model_type] }}
+                            </th>
+                            <td>
+                                <a href="{{route("admin.$routeNamePrefix.show", $component->in_model_id)}}">
+                                    {{ $journey->items[$questionIndex]->name }}
+                                </a>
+                            </td>
+                        </tr>
+                        @php
+                            $questionIndex++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.journeys.index') }}">
                     {{ trans('global.back_to_list') }}

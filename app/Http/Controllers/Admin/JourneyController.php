@@ -108,10 +108,35 @@ class JourneyController extends Controller
         return redirect()->route('admin.journeys.index');
     }
 
-    public function show(Journey $journey)
+    public function show($journey_id)
     {
         abort_if(Gate::denies('journey_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $journey = Journey::find($journey_id);
+
+        // $journey->load('components');
+
+        $items = [];
+        $components = $journey->components
+            ->sortBy('urutan')
+            ->values()
+            ->all();
+
+        foreach ($components as $component) {
+            switch ($component->model_type) {
+                case 'journals':
+                    $item = Journal::find($component->in_model_id);
+                    array_push($items, $item);
+                    break;
+                case 'music_items':
+                    $item = MusicItem::find($component->in_model_id);
+                    array_push($items, $item);
+                    break;
+            }
+        }
+
+        $journey->items = $items;
+        
         return view('admin.journeys.show', compact('journey'));
     }
 

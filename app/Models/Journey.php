@@ -16,6 +16,11 @@ class Journey extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
+    public const ITEM_JOURNEY_TYPE = [
+        "journals" => "Journal",
+        "music_items" => "Music",
+    ];
+
     public $table = 'journeys';
 
     protected $appends = [
@@ -37,6 +42,10 @@ class Journey extends Model implements HasMedia
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'media',
+    ];
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
@@ -53,6 +62,11 @@ class Journey extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function components()
+    {
+        return $this->hasMany(JourneyComponent::class, 'journey_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)
