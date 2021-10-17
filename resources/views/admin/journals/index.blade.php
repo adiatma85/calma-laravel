@@ -26,7 +26,10 @@
                             {{ trans('cruds.journal.fields.id') }}
                         </th>
                         <th>
-                            Nama Journal
+                            {{ trans('cruds.journal.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.journal.fields.cover_image') }}
                         </th>
                         <th>
                             &nbsp;
@@ -41,6 +44,7 @@
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
+                        <td></td>
                         <td>
                         </td>
                     </tr>
@@ -55,6 +59,13 @@
                             </td>
                             <td>
                                 {{ $journal->name ?? '' }}
+                            </td>
+                            <td>
+                                @if($journal->cover_image)
+                                    <a href="{{ $journal->cover_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $journal->cover_image->getUrl('thumb') }}">
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 @can('journal_show')

@@ -18,6 +18,10 @@ class Journal extends Model implements HasMedia
 
     public $table = 'journals';
 
+    protected $appends = [
+        'cover_image',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -39,6 +43,18 @@ class Journal extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
+    }
+
+    public function getCoverImageAttribute()
+    {
+        $file = $this->getMedia('cover_image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
     }
 
     public function journey()

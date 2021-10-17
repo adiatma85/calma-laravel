@@ -31,6 +31,18 @@
                             {{ $journal->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.journal.fields.cover_image') }}
+                        </th>
+                        <td>
+                            @if($journal->cover_image)
+                                <a href="{{ $journal->cover_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $journal->cover_image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <h2>Daftar-daftar pertanyaan</h2>

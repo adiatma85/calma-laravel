@@ -40,6 +40,12 @@ class JournalController extends Controller
     public function store(StoreJournalRequest $request)
     {
         $journal = Journal::create($request->only('name'));
+
+        // Cover image
+        if ($request->input('cover_image', false)) {
+            $journal->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_image'))))->toMediaCollection('cover_image');
+        }
+
         if ($questions = $request->input('add_journal_questions')) {
             foreach ($questions as $question) {
                 JournalQuestion::create([
@@ -63,6 +69,18 @@ class JournalController extends Controller
     public function update(UpdateJournalRequest $request, Journal $journal)
     {
         $journal->update($request->only('name'));
+
+        // Cover Image
+        if ($request->input('cover_image', false)) {
+            if (!$journal->cover_image || $request->input('cover_image') !== $journal->cover_image->file_name) {
+                if ($journal->cover_image) {
+                    $journal->cover_image->delete();
+                }
+                $journal->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_image'))))->toMediaCollection('cover_image');
+            }
+        } elseif ($journal->cover_image) {
+            $journal->cover_image->delete();
+        }
 
         // Remove Journal Question Id
         if ($removedQuestions = $request->input('removed_questions')) {

@@ -209,6 +209,8 @@ return [
             'journey_helper'    => ' ',
             'name'              => 'Nama Journal',
             'name_helper'       => ' ',
+            'cover_image'        => 'Cover Image',
+            'cover_image_helper' => ' ',
         ],
     ],
     'moodTracker' => [
