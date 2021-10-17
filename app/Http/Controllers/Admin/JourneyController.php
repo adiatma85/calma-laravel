@@ -25,10 +25,6 @@ class JourneyController extends Controller
 
         $journeys = Journey::with(['media'])->get();
 
-        $playlists = Playlist::all();
-
-        $journals = Journals::all();
-
         return view('admin.journeys.index', compact('journeys'));
     }
 
@@ -36,7 +32,11 @@ class JourneyController extends Controller
     {
         abort_if(Gate::denies('journey_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.journeys.create');
+        $playlists = Playlist::all();
+
+        $journals = Journal::all();
+
+        return view('admin.journeys.create', compact('playlists', 'journals'));
     }
 
     public function store(StoreJourneyRequest $request)

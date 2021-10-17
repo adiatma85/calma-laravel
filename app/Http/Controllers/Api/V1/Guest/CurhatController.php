@@ -33,11 +33,11 @@ class CurhatController
     // GET
     public function show($curhatId)
     {
-        $curhatan = Curhatan::with(['user'])->firstWhere('id', $curhatId);
-        if (!$curhatan->exists()) {
+        $curhatan = Curhatan::with(['user'])->find($curhatId);
+        if (!$curhatan) {
             return $this->notFoundFailResponse();
         }
-        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["curhatan" => $curhatan->first()]);
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["curhatan" => $curhatan]);
     }
 
     // POST
