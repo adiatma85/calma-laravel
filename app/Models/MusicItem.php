@@ -40,6 +40,10 @@ class MusicItem extends Model implements HasMedia
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'media',
+    ];
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);

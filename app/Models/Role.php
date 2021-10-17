@@ -27,6 +27,10 @@ class Role extends Model
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'media',
+    ];
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);

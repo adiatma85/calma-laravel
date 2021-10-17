@@ -27,6 +27,10 @@ class MoodTrackerReason extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    protected $hidden = [
+        'media',
+    ];
 
     public function mood_tracker()
     {

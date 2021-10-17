@@ -29,6 +29,10 @@ class JournalQuestion extends Model
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'media',
+    ];
+
     public function journal()
     {
         return $this->belongsTo(Journal::class, 'journal_id');

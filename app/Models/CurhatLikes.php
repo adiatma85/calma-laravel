@@ -16,6 +16,10 @@ class CurhatLikes extends Model
         "curhatan_id",
     ];
 
+    protected $hidden = [
+        'media',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
