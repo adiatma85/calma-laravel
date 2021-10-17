@@ -19,7 +19,12 @@ class Curhatan extends Model implements HasMedia
     public const CATEGORY_SELECT = [
         "Pekerjaan" => "Pekerjaan",
         "Ekonomi" => "Ekonomi",
-        "Asmara" => "Asmara"
+        "Hubungan" => "Hubungan",
+        'Keluarga' => 'Keluarga',
+        "Teman"    => 'Teman',
+        "Pendidikan" => "Pendidikan",
+        "Finansial" => "Finansial",
+        "Lainnya" => "Lainnya"
     ];
 
     public $table = 'curhatans';

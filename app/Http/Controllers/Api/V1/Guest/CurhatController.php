@@ -23,7 +23,7 @@ class CurhatController
     }
 
     // GET
-    public function getIndexFromTopic($categoryName)
+    public function getIndexFromCategory($categoryName)
     {
         $curhatans = Curhatan::with(['user'])->where('category', $categoryName)->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
@@ -109,18 +109,32 @@ class CurhatController
         if (!$curhatan->exists()) {
             return $this->notFoundFailResponse();
         }
+
+        $item = $curhatan->first();
+
+        if ($item->user_id != $request->user_id) {
+            return $this->response(false, Response::HTTP_UNAUTHORIZED, "Unauthorized access", null);
+        }
+
         $curhatan->update($request->all());
         return $this->response(true, Response::HTTP_NO_CONTENT, "", null);
     }
 
     // DELETE
-    public function delete($curhatanId)
+    public function delete($curhatanId, Request $request)
     {
         $curhatan = Curhatan::where('id', $curhatanId);
 
         if (!$curhatan->exists()) {
             return $this->notFoundFailResponse();
         }
+
+        $item = $curhatan->first();
+
+        if ($item->user_id != $request->user_id) {
+            return $this->response(false, Response::HTTP_UNAUTHORIZED, "Unauthorized access", null);
+        }
+
         $curhatan->delete();
         return $this->response(true, Response::HTTP_NO_CONTENT, "", null);
     }

@@ -91,7 +91,7 @@ Route::prefix('v1')
                 Route::prefix('curhatans')
                     ->as('curhatan.')
                     ->group(function () {
-                        Route::get('/topic/{topicName}', [ApiGuestCurhatController::class, 'getIndexFromTopic'])->name('getIndexFromTopic');
+                        Route::get('/category/{categoryName}', [ApiGuestCurhatController::class, 'getIndexFromCategory'])->name('getIndexFromCategory');
                         Route::get('/{curhatanId}', [ApiGuestCurhatController::class, 'show'])->name('show');
                         Route::put('/{curhatanId}', [ApiGuestCurhatController::class, 'update'])->name('update');
                         Route::delete('/{curhatanId}', [ApiGuestCurhatController::class, 'delete'])->name('delete');
