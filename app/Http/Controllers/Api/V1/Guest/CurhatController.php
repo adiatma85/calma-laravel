@@ -19,7 +19,6 @@ class CurhatController
     public function index()
     {
         $curhatans = Curhatan::with(['user'])->get();
-        $curhatans->load('comments');
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
@@ -37,6 +36,7 @@ class CurhatController
         if (!$curhatan) {
             return $this->notFoundFailResponse();
         }
+        $curhatan->load('comments');
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["curhatan" => $curhatan]);
     }
 
