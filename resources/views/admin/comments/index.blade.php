@@ -26,6 +26,12 @@
                             {{ trans('cruds.comment.fields.id') }}
                         </th>
                         <th>
+                            {{ trans('cruds.comment.fields.content') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.comment.fields.is_anonymous') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -34,6 +40,15 @@
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            {{-- <select name="" id="" class="select">
+                                <option value="false">False</option>
+                                <option value="true">True</option>
+                            </select> --}}
                         </td>
                         <td>
                         </td>
@@ -47,6 +62,12 @@
                             </td>
                             <td>
                                 {{ $comment->id ?? '' }}
+                            </td>
+                            <td>
+                                {{ $comment->content ?? '' }}
+                            </td>
+                            <td>
+                                {{ $comment->is_anonymous ?? '' }}
                             </td>
                             <td>
                                 @can('comment_show')

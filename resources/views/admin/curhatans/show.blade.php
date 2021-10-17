@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.curhatan.fields.is_anonymous') }}
+                        </th>
+                        <td>
+                            {!! $curhatan->is_anonymous !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.curhatan.fields.user') }}
                         </th>
                         <td>

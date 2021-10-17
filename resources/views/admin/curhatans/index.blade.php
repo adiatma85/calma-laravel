@@ -32,6 +32,9 @@
                             {{ trans('cruds.curhatan.fields.category') }}
                         </th>
                         <th>
+                            {{ trans('cruds.curhatan.fields.is_anonymous') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -57,6 +60,7 @@
                                 <option value="Asmara">Asmara</option>
                             </select>
                         </td>
+                        <td></td>
                         <td>
                         </td>
                     </tr>
@@ -75,6 +79,9 @@
                             </td>
                             <td>
                                 {{ $curhatan->category ?? '' }}
+                            </td>
+                            <td>
+                                {{ $category->is_anonymous ?? '' }}
                             </td>
                             <td>
                                 @can('curhatan_show')

@@ -27,6 +27,7 @@ class Comment extends Model implements HasMedia
 
     protected $fillable = [
         'content',
+        'is_anonymous',
         "curhatan_id",
         "user_id",
         'created_at',
@@ -58,8 +59,7 @@ class Comment extends Model implements HasMedia
         $query = DB::table("users")
             ->where('id', "=", $this->user_id)
             ->select('name')
-            ->first()
-            ;
+            ->first();
         return $query->name;
     }
 }

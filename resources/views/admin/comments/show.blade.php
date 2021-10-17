@@ -31,6 +31,14 @@
                             {!! $comment->content !!}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.comment.fields.is_anonymous') }}
+                        </th>
+                        <td>
+                            {!! $comment->is_anonymous !!}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

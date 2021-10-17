@@ -18,6 +18,17 @@
                 <span class="help-block">{{ trans('cruds.comment.fields.content_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="is_anonymous">{{ trans('cruds.comment.fields.is_anonymous') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="is_anonymous" id="is_anonymous" required>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+                @if($errors->has('user'))
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.comment.fields.is_anonymous_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
