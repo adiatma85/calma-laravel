@@ -19,6 +19,7 @@ class Playlist extends Model implements HasMedia
     public $table = 'playlists';
 
     protected $appends = [
+        'description2',
         'rounded_image',
         'squared_image',
     ];
@@ -76,6 +77,10 @@ class Playlist extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function getDescription2Attribute(){
+        return strip_tags($this->description);
     }
 
     public function topic()

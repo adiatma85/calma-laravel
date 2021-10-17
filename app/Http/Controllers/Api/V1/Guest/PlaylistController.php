@@ -18,13 +18,14 @@ class PlaylistController
     public function index()
     {
         $playlists = Playlist::with(['topic', 'playlistMusicItems'])->get();
+        $playlists->makeHidden('description');
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('playlists'));
     }
 
     // GET
     public function indexWithRandom()
     {
-        $playlists = Playlist::with(['topic', 'playlistMusicItems'])->inRandomOrder()->limit(10)->get();
+        $playlists = Playlist::with(['topic', 'playlistMusicItems'])->limit(10)->inRandomOrder();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('playlists'));
     }
 
@@ -35,6 +36,7 @@ class PlaylistController
         if (!$playlist) {
             return $this->notFoundFailResponse();
         }
+        $playlist->makeHidden('description');
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('playlist'));
     }
 }

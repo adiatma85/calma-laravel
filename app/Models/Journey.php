@@ -24,6 +24,7 @@ class Journey extends Model implements HasMedia
     public $table = 'journeys';
 
     protected $appends = [
+        'description2',
         'image',
     ];
 
@@ -62,6 +63,11 @@ class Journey extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function getDescription2Attribute()
+    {
+        return strip_tags($this->description);
     }
 
     public function components()
