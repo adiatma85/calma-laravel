@@ -85,7 +85,7 @@ class AuthController
         }
 
         $user = User::where('email', $request->email)
-            ->orWhere('username', $request->username)
+            // ->orWhere('username', $request->username)
             ;
         if ($user->exists()) {
             $thisUser = $user->first();
