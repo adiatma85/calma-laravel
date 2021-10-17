@@ -32,6 +32,12 @@
                             {{ trans('cruds.musicItem.fields.music_file') }}
                         </th>
                         <th>
+                            {{ trans('cruds.musicItem.fields.squared_image') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.musicItem.fields.rounded_image') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.musicItem.fields.duration') }}
                         </th>
                         <th>
@@ -49,6 +55,11 @@
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            {{-- Music --}}
+                        </td>
+                        <td>
                         </td>
                         <td>
                         </td>
@@ -83,6 +94,20 @@
                                 @if($musicItem->music_file)
                                     <a href="{{ $musicItem->music_file->getUrl() }}" target="_blank">
                                         {{ trans('global.view_file') }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($musicItem->squared_image)
+                                    <a href="{{ $musicItem->squared_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $musicItem->squared_image->getUrl('thumb') }}">
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($musicItem->rounded_image)
+                                    <a href="{{ $musicItem->rounded_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $musicItem->rounded_image->getUrl('thumb') }}">
                                     </a>
                                 @endif
                             </td>

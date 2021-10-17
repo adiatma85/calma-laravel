@@ -33,6 +33,30 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.musicItem.fields.squared_image') }}
+                        </th>
+                        <td>
+                            @if($musicItem->squared_image)
+                                <a href="{{ $musicItem->squared_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $musicItem->squared_image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.musicItem.fields.rounded_image') }}
+                        </th>
+                        <td>
+                            @if($musicItem->rounded_image)
+                                <a href="{{ $musicItem->rounded_image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $musicItem->rounded_image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.musicItem.fields.duration') }}
                         </th>
                         <td>

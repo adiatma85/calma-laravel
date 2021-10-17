@@ -46,6 +46,14 @@ class MusicItemController extends Controller
             $musicItem->addMedia(storage_path('tmp/uploads/' . basename($request->input('music_file'))))->toMediaCollection('music_file');
         }
 
+        if ($request->input('rounded_image', false)) {
+            $musicItem->addMedia(storage_path('tmp/uploads/' . basename($request->input('rounded_image'))))->toMediaCollection('rounded_image');
+        }
+
+        if ($request->input('squared_image', false)) {
+            $musicItem->addMedia(storage_path('tmp/uploads/' . basename($request->input('squared_image'))))->toMediaCollection('squared_image');
+        }
+
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $musicItem->id]);
         }
@@ -77,6 +85,28 @@ class MusicItemController extends Controller
             }
         } elseif ($musicItem->music_file) {
             $musicItem->music_file->delete();
+        }
+
+        if ($request->input('rounded_image', false)) {
+            if (!$musicItem->rounded_image || $request->input('rounded_image') !== $musicItem->rounded_image->file_name) {
+                if ($musicItem->rounded_image) {
+                    $musicItem->rounded_image->delete();
+                }
+                $musicItem->addMedia(storage_path('tmp/uploads/' . basename($request->input('rounded_image'))))->toMediaCollection('rounded_image');
+            }
+        } elseif ($musicItem->rounded_image) {
+            $musicItem->rounded_image->delete();
+        }
+
+        if ($request->input('squared_image', false)) {
+            if (!$musicItem->squared_image || $request->input('squared_image') !== $musicItem->squared_image->file_name) {
+                if ($musicItem->squared_image) {
+                    $musicItem->squared_image->delete();
+                }
+                $musicItem->addMedia(storage_path('tmp/uploads/' . basename($request->input('squared_image'))))->toMediaCollection('squared_image');
+            }
+        } elseif ($musicItem->squared_image) {
+            $musicItem->squared_image->delete();
         }
 
         return redirect()->route('admin.music-items.index');

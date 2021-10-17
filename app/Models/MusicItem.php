@@ -20,6 +20,8 @@ class MusicItem extends Model implements HasMedia
 
     protected $appends = [
         'music_file',
+        'rounded_image',
+        'squared_image',
     ];
 
     protected $dates = [
@@ -46,6 +48,30 @@ class MusicItem extends Model implements HasMedia
     public function getMusicFileAttribute()
     {
         return $this->getMedia('music_file')->last();
+    }
+
+    public function getRoundedImageAttribute()
+    {
+        $file = $this->getMedia('rounded_image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
+    }
+
+    public function getSquaredImageAttribute()
+    {
+        $file = $this->getMedia('squared_image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
     }
 
     public function playlist()
