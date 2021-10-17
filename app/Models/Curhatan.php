@@ -30,6 +30,7 @@ class Curhatan extends Model implements HasMedia
     public $table = 'curhatans';
 
     protected $appends = [
+        'content2',
         'like_count',
     ];
 
@@ -91,5 +92,10 @@ class Curhatan extends Model implements HasMedia
             return true;
         }
         return false;
+    }
+
+    public function getContent2Attribute()
+    {
+        return strip_tags($this->content);
     }
 }
