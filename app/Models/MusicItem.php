@@ -19,6 +19,7 @@ class MusicItem extends Model implements HasMedia
     public $table = 'music_items';
 
     protected $appends = [
+        'music_url',
         'music_file',
         'rounded_image',
         'squared_image',
@@ -48,6 +49,11 @@ class MusicItem extends Model implements HasMedia
     public function getMusicFileAttribute()
     {
         return $this->getMedia('music_file')->last();
+    }
+
+    public function getMusicUrlAtrribute()
+    {
+        return $this->music_file->getUrl();
     }
 
     public function getRoundedImageAttribute()

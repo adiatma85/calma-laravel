@@ -7,9 +7,8 @@ use App\Http\Requests\MassDestroyJourneyRequest;
 use App\Http\Requests\StoreJourneyRequest;
 use App\Http\Requests\UpdateJourneyRequest;
 use App\Models\Journey;
-use App\Models\MoodTracker;
 use App\Models\Playlist;
-use App\Models\User;
+use App\Models\Journal;
 use Gate;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Illuminate\Http\Request;
@@ -25,6 +24,10 @@ class JourneyController extends Controller
         abort_if(Gate::denies('journey_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $journeys = Journey::with(['media'])->get();
+
+        $playlists = Playlist::all();
+
+        $journals = Journals::all();
 
         return view('admin.journeys.index', compact('journeys'));
     }
