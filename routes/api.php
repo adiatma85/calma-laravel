@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Controller
 use App\Http\Controllers\Api\V1\Guest\AuthController as ApiGuestAuthController;
+use App\Http\Controllers\Api\V1\Guest\UserController as ApiGuestUserController;
 use App\Http\Controllers\Api\V1\Guest\PlaylistController as ApiGuestPlaylistController;
 use App\Http\Controllers\Api\V1\Guest\MusicController as ApiGuestMusicController;
 use App\Http\Controllers\Api\V1\Guest\CurhatController as ApiGuestCurhatController;
@@ -60,6 +61,15 @@ Route::prefix('v1')
         // SubGroup with simple api validation grpup
         Route::middleware(['simpleapivalidation'])
             ->group(function () {
+
+                // User
+                Route::prefix('user')
+                    ->as('user.')
+                    ->group(function () {
+                        // Getuser by id
+                        Route::post('/get_user', [ApiGuestUserController::class, 'getUserById'])->name('getUserById');
+                    });
+
                 // Playlist
                 Route::prefix('playlists')
                     ->as('playlist.')
