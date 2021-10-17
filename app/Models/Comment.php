@@ -64,6 +64,14 @@ class Comment extends Model implements HasMedia
         return $this->belongsTo(Curhatan::class, 'curhatan_id');
     }
 
+    public function getIsAnonymousAttribute($value)
+    {
+        if ($value) {
+            return true;
+        }
+        return false;
+    }
+
     protected function getUsernameAttribute()
     {
         $query = DB::table("users")
