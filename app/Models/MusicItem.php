@@ -51,7 +51,7 @@ class MusicItem extends Model implements HasMedia
         return $this->getMedia('music_file')->last();
     }
 
-    public function getMusicUrlAtrribute()
+    public function getMusicUrlAttribute()
     {
         return $this->music_file->getUrl();
     }
