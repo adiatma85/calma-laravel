@@ -35,6 +35,14 @@
                 <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="jenis_kelamin">{{ trans('cruds.user.fields.jenis_kelamin') }}</label>
+                <input class="form-control {{ $errors->has('jenis_kelamin') ? 'is-invalid' : '' }}" type="text" name="jenis_kelamin" id="jenis_kelamin" value="{{ old('jenis_kelamin', $user->jenis_kelamin) }}" required>
+                @if($errors->has('jenis_kelamin'))
+                    <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.jenis_kelamin_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
                 <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>

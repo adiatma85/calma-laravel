@@ -35,6 +35,9 @@
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.jenis_kelamin') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
@@ -59,6 +62,9 @@
                             </td>
                             <td>
                                 {{ $user->email_verified_at ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->jenis_kelamin ?? '' }}
                             </td>
                             <td>
                                 @foreach($user->roles as $key => $item)
