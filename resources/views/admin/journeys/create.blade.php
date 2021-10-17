@@ -44,13 +44,13 @@
             </div>
             <div class="form-group">
               <div class="col-12">
-                <label for="">Daftar-daftar pertanyaan</label>
+                <label for="">Daftar Item Journey</label>
                 <div class="row" id="addFieldAppend">
 
                 </div>
                 <div class="d-flex justify-content-center">
                   <button class="btn btn-info btn-block" id="addFieldButton">
-                    Tambahkan pertanyaan
+                    Tambahkan Item Journey
                     <i class="fa fa-plus-circle ml-2"></i>
                   </button>
                 </div>
@@ -206,7 +206,7 @@
               $org = `<div class='form-group col-md-12' id='field-${numerical}'>` +
               "<div class='row'>" +
               "<div class='col-md-1'>" +
-              `<select class='search option-class' id='optionNumber-${numerical}'>` + 
+              `<select class='search option-class form-control' id='optionNumber-${numerical}'>` + 
                 "<option value='' selected>Please Select</option>" + 
                 "<option value='journal'>Journal</option>" + 
                 "<option value='music'>Music</option>" + 
@@ -217,6 +217,10 @@
                     "<option value''>Please Select</option>" + 
                     // Nanti tambahannya di sini!
                   "</select>" + 
+                "</div>" +
+              "</div>" +
+              "<div class='col-md-2'>" +
+                `<input type='text' name='' class='form-control' placeholder='Urutan' id='urutanNumber-${numerical}'>` +
                 "</div>" +
               "</div>" +
               "<div class='col-md-1'>" +
@@ -244,7 +248,7 @@
                     arrayFill = @json($journals);
                     break;
                   case "music":
-                    arrayFill = @json($playlists);
+                    arrayFill = @json($musics);
                     break;
                 }
                 // console.log(targetValue)
@@ -254,6 +258,9 @@
                   // console.log(value);
                   $(`#valueNumber-${number}`).append(literalLoop(value.id, value.name));
                 } );
+
+                $(`#valueNumber-${number}`).attr('name', `item_${targetValue}[]`);
+                $(`#urutanNumber-${number}`).attr('name', `urutan_${targetValue}[]`);
           }
 
           function literalLoop(itemValue, itemName){

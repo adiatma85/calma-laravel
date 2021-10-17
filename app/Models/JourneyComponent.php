@@ -23,6 +23,7 @@ class JourneyComponent extends Model
     protected $fillable = [
         'model_type',
         'in_model_id',
+        'urutan',
         'journey_id',
         'created_at',
         'updated_at',

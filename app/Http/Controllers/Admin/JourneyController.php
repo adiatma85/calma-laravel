@@ -7,8 +7,9 @@ use App\Http\Requests\MassDestroyJourneyRequest;
 use App\Http\Requests\StoreJourneyRequest;
 use App\Http\Requests\UpdateJourneyRequest;
 use App\Models\Journey;
-use App\Models\Playlist;
+use App\Models\JourneyComponent;
 use App\Models\Journal;
+use App\Models\MusicItem;
 use Gate;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Illuminate\Http\Request;
@@ -32,11 +33,11 @@ class JourneyController extends Controller
     {
         abort_if(Gate::denies('journey_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $playlists = Playlist::all();
+        $musics = MusicItem::all();
 
         $journals = Journal::all();
 
-        return view('admin.journeys.create', compact('playlists', 'journals'));
+        return view('admin.journeys.create', compact('musics', 'journals'));
     }
 
     public function store(StoreJourneyRequest $request)
@@ -49,6 +50,34 @@ class JourneyController extends Controller
 
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $journey->id]);
+        }
+
+        // Store Journal
+        if ($itemsJournal = $request->item_journal) {
+            $index = 0;
+            foreach ($itemsJournal as $item) {
+                JourneyComponent::create([
+                    'model_type' => 'journals',
+                    'in_model_id' => $item,
+                    'journey_id' => $journey->id,
+                    'urutan' => $request->urutan_journal[$index],
+                ]);
+                $index++;
+            }
+        }
+
+        // Store Music
+        if ($itemsMusic = $request->item_music) {
+            $index = 0;
+            foreach ($itemsMusic as $item) {
+                JourneyComponent::create([
+                    'model_type' => 'music_items',
+                    'in_model_id' => $item,
+                    'journey_id' => $journey->id,
+                    'urutan' => $request->urutan_music[$index],
+                ]);
+                $index++;
+            }
         }
 
         return redirect()->route('admin.journeys.index');
