@@ -24,16 +24,18 @@ class JourneyController
 
         $journeys->makeHidden('description');
 
+        $journeys->load('components');
+
         foreach ($journeys as $journey) {
-            $components = $journey->component;
+            $components = $journey->components;
             $userFinishedComponent = UserJourneyComponentHistory::where('user_id', $request->user_id)
-                    ->where('journey_id', $journey->id)
-                    ->get()
-                ;
-            // return response()->json([
-            //     'totalComponent' => $components,
-            //     // 'finished' => count($userFinishedComponent)
-            // ]);
+                ->where('journey_id', $journey->id)
+                ->get();
+
+            $journey->totalProgress = count($components);
+            $journey->finishedProgress = count($userFinishedComponent);
+
+            // return response()->json(compact('journey'));
 
             $journey->finishedProgress = count($userFinishedComponent);
             $journey->totalProgress = count($components);
@@ -82,5 +84,4 @@ class JourneyController
             "item" => $item
         ]);
     }
-
 }
