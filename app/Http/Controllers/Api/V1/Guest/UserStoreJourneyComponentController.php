@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\V1\Guest;
 
 use App\Models\UserJournalAnswer;
+use App\Models\UserJourneyComponentHistory;
 use App\Http\Controllers\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class UserJournalAnswerController
+class UserStoreJourneyComponentController
 {
 
     use ResponseTrait;
@@ -50,7 +51,17 @@ class UserJournalAnswerController
         }
 
         // Create History
+        UserJourneyComponentHistory::create([
+            'user_id' => $request->user_id,
+            'journey_component_id' => $request->journey_component_id,
+        ]);
 
         return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit the answer", null);
+    }
+
+    // HISTORY Untuk music juga
+    public function storeMusicHistory(Request $request)
+    {
+        
     }
 }
