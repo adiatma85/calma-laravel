@@ -164,6 +164,7 @@ class MoodTrackerController
         $accReasons = collect([]);
 
         // Experimental for mood tracker
+        $index = 0;
         for ($i = $date_begin->addDay(); $i <= $date_end; $i->addDay()) {
             $existedItem = $moodTrackers->first(function ($item) use ($i) {
                 return
@@ -175,14 +176,18 @@ class MoodTrackerController
             if (!$existedItem) {
                 $copyOfIndex = $i->copy();
                 $newItem = [
+                    "index" => $index,
                     "created_at" => $copyOfIndex->format("Y-m-d H:i:s"),
                     "updated_at" => $copyOfIndex->format("Y-m-d H:i:s"),
                     "mood" => 0,
                     "reasons" => [],
                 ];
                 $moodTrackers = $moodTrackers->push((object)$newItem);
+                $index++;
                 continue;
             }
+            $existedItem->index = $index;
+            $index++;
             $accReasons->push(...$existedItem->reasons);
         }
 
