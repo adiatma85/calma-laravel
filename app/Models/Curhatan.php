@@ -18,7 +18,6 @@ class Curhatan extends Model implements HasMedia
 
     public const CATEGORY_SELECT = [
         "Pekerjaan" => "Pekerjaan",
-        "Ekonomi" => "Ekonomi",
         "Hubungan" => "Hubungan",
         'Keluarga' => 'Keluarga',
         "Teman"    => 'Teman',

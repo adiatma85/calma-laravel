@@ -13,8 +13,15 @@ class QuoteController
     use ResponseTrait;
 
     // GET from journey_id
-    public function show($journey_id){
+    public function show($journey_id)
+    {
+        $quote = Quote::firstWhere('journey_id', $journey_id);
 
+        if (!$quote) {
+            $this->notFoundFailResponse();
+        }
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact($quote));
     }
 
     // GET

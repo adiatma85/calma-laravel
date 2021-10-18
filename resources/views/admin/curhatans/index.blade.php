@@ -55,9 +55,9 @@
                         <td>
                             <select class="search">
                                 <option value>{{ trans('global.all') }}</option>
-                                <option value="Pekerjaan">Pekerjaan</option>
-                                <option value="Ekonomi">Ekonomi</option>
-                                <option value="Asmara">Asmara</option>
+                                @foreach (\App\Models\Curhatan::CATEGORY_SELECT as $key => $value)
+                                    <option value="{{$key}}">{{$value}}</option>
+                                @endforeach
                             </select>
                         </td>
                         <td></td>

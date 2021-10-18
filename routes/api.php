@@ -139,6 +139,7 @@ Route::prefix('v1')
                     ->as('quote.')
                     ->group(function () {
                         Route::get('/random', [ApiGuestQuoteController::class, 'getRandomQuote'])->name('getRandomQuote');
+                        Route::get('/{journey_id}', [ApiGuestQuoteController::class, 'show'])->name('show');
                     });
             });
     });
