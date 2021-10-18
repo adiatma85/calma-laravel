@@ -35,6 +35,9 @@
                             {{ trans('cruds.quote.fields.author') }}
                         </th>
                         <th>
+                            {{ trans('cruds.quote.fields.journey') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -52,6 +55,14 @@
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($journeys as $key => $item)
+                                    <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
                         </td>
@@ -74,6 +85,9 @@
                             </td>
                             <td>
                                 {{ $quote->author ?? '' }}
+                            </td>
+                            <td>
+                                {{ $quote->journey->title ?? '' }}
                             </td>
                             <td>
                                 @can('quote_show')

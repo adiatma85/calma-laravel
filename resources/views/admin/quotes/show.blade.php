@@ -47,6 +47,16 @@
                             {{ $quote->author }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.quote.fields.journey') }}
+                        </th>
+                        <td>
+                            <a href="{{$quote->journey->id ? route('admin.journeys.show', $quote->journey->id) : ''}}">
+                                {{ $quote->journey->title ?? '' }}
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

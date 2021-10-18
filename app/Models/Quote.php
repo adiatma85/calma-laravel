@@ -24,6 +24,7 @@ class Quote extends Model
         'title',
         'content',
         'author',
+        'journey_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -32,5 +33,10 @@ class Quote extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function journey()
+    {
+        return $this->belongsTo(Journey::class, 'journey_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyQuoteRequest;
 use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
+use App\Models\Journey;
 use App\Models\Quote;
 use Gate;
 use Illuminate\Http\Request;
@@ -17,16 +18,20 @@ class QuoteController extends Controller
     {
         abort_if(Gate::denies('quote_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $quotes = Quote::all();
+        $quotes = Quote::with(['journey'])->get();
 
-        return view('admin.quotes.index', compact('quotes'));
+        $journeys = Journey::get();
+
+        return view('admin.quotes.index', compact('quotes', 'journeys'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('quote_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.quotes.create');
+        $journeys = Journey::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.quotes.create', compact('journeys'));
     }
 
     public function store(StoreQuoteRequest $request)
@@ -40,7 +45,11 @@ class QuoteController extends Controller
     {
         abort_if(Gate::denies('quote_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.quotes.edit', compact('quote'));
+        $journeys = Journey::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $quote->load('journey');
+
+        return view('admin.quotes.edit', compact('journeys', 'quote'));
     }
 
     public function update(UpdateQuoteRequest $request, Quote $quote)
@@ -53,6 +62,8 @@ class QuoteController extends Controller
     public function show(Quote $quote)
     {
         abort_if(Gate::denies('quote_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $quote->load('journey');
 
         return view('admin.quotes.show', compact('quote'));
     }

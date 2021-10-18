@@ -34,6 +34,18 @@
                 <span class="help-block">{{ trans('cruds.quote.fields.author_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="journey_id">{{ trans('cruds.quote.fields.journey') }}</label>
+                <select class="form-control select2 {{ $errors->has('journey') ? 'is-invalid' : '' }}" name="journey_id" id="journey_id">
+                    @foreach($journeys as $id => $entry)
+                        <option value="{{ $id }}" {{ old('journey_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('journey'))
+                    <span class="text-danger">{{ $errors->first('journey') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.quote.fields.journey_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
