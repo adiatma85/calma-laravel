@@ -16,7 +16,7 @@ class UserStoreJourneyComponentController
     use ResponseTrait;
 
     // POST
-    public function store(Request $request)
+    public function storeJournalHistory(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
@@ -62,6 +62,29 @@ class UserStoreJourneyComponentController
     // HISTORY Untuk music juga
     public function storeMusicHistory(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            "journey_component_id" => "required",
+            "user_id" => "required",
+        ], [
+            "user_id" => [
+                "required" => "user_id field must exist",
+            ],
+
+            "journey_component_id" => [
+                "required" => "journey_id field must exist",
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->badRequestFailResponse($validator);
+        }
+
+        // Create History
+        UserJourneyComponentHistory::create([
+            'user_id' => $request->user_id,
+            'journey_component_id' => $request->journey_component_id,
+        ]);
+
+        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit the answer", null);
     }
 }
