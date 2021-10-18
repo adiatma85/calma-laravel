@@ -217,11 +217,19 @@ class MoodTrackerController
 
         // Sorted Accumulated Reason
         $listAccReason = $accReasons->countBy('reason');
+        $accumulatedReason = [];
+        foreach ($listAccReason as $key => $value) {
+            $item = [
+                "factor" => $key,
+                "total" => $value
+            ];
+            array_push($accumulatedReason, $item);
+        }
 
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
             'moodTrackers' => $sortedMoodTracker,
             'sortedMood' => $finalSortedMood,
-            'listAccReason' => $listAccReason,
+            'listAccReason' => $accumulatedReason,
         ]);
     }
 }
