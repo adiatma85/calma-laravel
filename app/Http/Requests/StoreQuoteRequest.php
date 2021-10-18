@@ -31,3 +31,4 @@ class StoreQuoteRequest extends FormRequest
             ],
         ];
     }
+}

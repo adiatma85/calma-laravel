@@ -236,6 +236,18 @@
                                     </a>
                                 </li>
                             @endcan
+                            @can('quote_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.quotes.index") }}" class="nav-link {{ request()->is("admin/quotes") || request()->is("admin/quotes/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-quote-left">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.quote.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan

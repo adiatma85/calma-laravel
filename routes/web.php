@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\JournalController as AdminJournalController;
 use App\Http\Controllers\Admin\MoodTrackerController as AdminMoodTrackerController;
 use App\Http\Controllers\Admin\MoodTrackerReasonController as AdminMoodTrackerReasonController;
 use App\Http\Controllers\Admin\JourneyController as AdminJourneyController;
+use App\Http\Controllers\Admin\QuoteController as AdminQuoteController;
 
 // Auth
 use App\Http\Controllers\Auth\ChangePasswordController as AuthChangePasswordController;
@@ -111,6 +112,10 @@ Route::prefix('admin')
         Route::post('journeys/media', [AdminJourneyController::class, 'storeMedia'])->name('journeys.storeMedia');
         Route::post('journeys/ckmedia', [AdminJourneyController::class, 'storeCKEditorImages'])->name('journeys.storeCKEditorImages');
         Route::resource('journeys', AdminJourneyController::class);
+
+        // Quote
+        Route::delete('quotes/destroy', [AdminQuoteController::class, 'massDestroy'])->name('quotes.massDestroy');
+        Route::resource('quotes', AdminQuoteController::class);
     });
 
 // Profile
