@@ -212,14 +212,15 @@ class MoodTrackerController
                     return "Baik";
                     break;
             }
-        });
+        })->sort()->toArray();
+        $finalSortedMood = array_search(max($sortedMood), $sortedMood);
 
         // Sorted Accumulated Reason
         $listAccReason = $accReasons->countBy('reason');
 
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
             'moodTrackers' => $sortedMoodTracker,
-            'sortedMood' => $sortedMood,
+            'sortedMood' => $finalSortedMood,
             'listAccReason' => $listAccReason,
         ]);
     }
