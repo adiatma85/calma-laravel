@@ -54,7 +54,7 @@ class AuthController
             ->orWhere('username', $request->username)
             ->exists();
         if ($condition) {
-            return $this->response(false, Response::HTTP_CONFLICT, "Email is already exists", null);
+            return $this->response(false, Response::HTTP_CONFLICT, "Email or Username is already exists", null);
         }
         $user = User::create($request->all());
         $user->roles()->sync($this->userRoles);
