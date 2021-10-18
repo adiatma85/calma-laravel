@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Guest\CommentController as ApiGuestCommentContro
 use App\Http\Controllers\Api\V1\Guest\CurhatanLikeController as ApiGuestCurhatanLikesController;
 use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
 use App\Http\Controllers\Api\V1\Guest\JourneyController as ApiGuestJourneyController;
+use App\Http\Controllers\Api\V1\Guest\QuoteController as ApiGuestQuoteController;
 
 // Models
 use App\Models\User;
@@ -131,6 +132,13 @@ Route::prefix('v1')
                         Route::get('/component/{journeyId}', [ApiGuestJourneyController::class, 'getComponent'])->name('getComponent');
                         Route::get('/{journeyId}', [ApiGuestJourneyController::class, 'show'])->name('show');
                         Route::get('/', [ApiGuestJourneyController::class, 'index'])->name('index');
+                    });
+
+                // Quote
+                Route::prefix('quotes')
+                    ->as('quote.')
+                    ->group(function () {
+                        Route::get('/random', [ApiGuestQuoteController::class, 'getRandomQuote'])->name('getRandomQuote');
                     });
             });
     });

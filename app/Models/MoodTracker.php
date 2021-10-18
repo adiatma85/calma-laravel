@@ -42,6 +42,11 @@ class MoodTracker extends Model
         return $this->hasMany(MoodTrackerReason::class, 'mood_tracker_id');
     }
 
+    public function getMoodAttribute($value)
+    {
+        return floatval($value);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
