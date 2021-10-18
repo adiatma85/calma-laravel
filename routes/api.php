@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Guest\CurhatanLikeController as ApiGuestCurhatan
 use App\Http\Controllers\Api\V1\Guest\MoodTrackerController as ApiGuestMoodTrackerController;
 use App\Http\Controllers\Api\V1\Guest\JourneyController as ApiGuestJourneyController;
 use App\Http\Controllers\Api\V1\Guest\QuoteController as ApiGuestQuoteController;
+use App\Http\Controllers\Api\V1\Guest\UserJournalAnswerController as ApiGuestUserJournalAnswerController;
 
 // Models
 use App\Models\User;
@@ -130,6 +131,7 @@ Route::prefix('v1')
                     ->as('journey.')
                     ->group(function () {
                         Route::get('/component/{journeyId}', [ApiGuestJourneyController::class, 'getComponent'])->name('getComponent');
+                        Route::post('/journal-submission', [ApiGuestUserJournalAnswerController::class, 'store'])->name('store');
                         Route::get('/{journeyId}', [ApiGuestJourneyController::class, 'show'])->name('show');
                         Route::get('/', [ApiGuestJourneyController::class, 'index'])->name('index');
                     });

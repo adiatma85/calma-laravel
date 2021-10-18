@@ -19,6 +19,8 @@ class UserJournalAnswer extends Model
     ];
 
     protected $fillable = [
+        'answer',
+        'journey_id',
         'user_id',
         'journal_question_id',
         'created_at',
