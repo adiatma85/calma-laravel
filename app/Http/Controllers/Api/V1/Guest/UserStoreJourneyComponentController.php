@@ -23,6 +23,7 @@ class UserStoreJourneyComponentController
             "answers" => "required",
             "journey_component_id" => "required",
             "user_id" => "required",
+            'journey_id' => 'required',
         ], [
             "answers" => [
                 "required" => "answers field must exist",
@@ -33,8 +34,12 @@ class UserStoreJourneyComponentController
             ],
 
             "journey_component_id" => [
-                "required" => "journey_id field must exist",
+                "required" => "journey_component_id field must exist",
             ],
+
+            'journey_id' => [
+                "required" => "journey_id field must exist",
+            ]
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +51,7 @@ class UserStoreJourneyComponentController
                 "user_id" => $request->user_id,
                 "journal_question_id" => $answerItem->id,
                 'answer' => $answerItem->answer,
-                // "journey_id" => $request->journey_id
+                "journey_id" => $request->journey_id
             ]);
         }
 
@@ -56,7 +61,7 @@ class UserStoreJourneyComponentController
             'journey_component_id' => $request->journey_component_id,
         ]);
 
-        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit the answer", null);
+        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
     }
 
     // HISTORY Untuk music juga
@@ -73,6 +78,14 @@ class UserStoreJourneyComponentController
             "journey_component_id" => [
                 "required" => "journey_id field must exist",
             ],
+
+            "journey_component_id" => [
+                "required" => "journey_component_id field must exist",
+            ],
+
+            'journey_id' => [
+                "required" => "journey_id field must exist",
+            ]
         ]);
 
         if ($validator->fails()) {
@@ -85,6 +98,6 @@ class UserStoreJourneyComponentController
             'journey_component_id' => $request->journey_component_id,
         ]);
 
-        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit the answer", null);
+        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
     }
 }

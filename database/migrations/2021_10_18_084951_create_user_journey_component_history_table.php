@@ -15,6 +15,7 @@ class CreateUserJourneyComponentHistoryTable extends Migration
     {
         Schema::create('user_journey_component_history', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('journey_id')->nullable();
             $table->unsignedBigInteger('journey_component_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             // NO FOREIGN KEY!

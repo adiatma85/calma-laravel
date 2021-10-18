@@ -19,6 +19,7 @@ class UserJourneyComponentHistory extends Model
     ];
 
     protected $fillable = [
+        'journey_id',
         'user_id',
         'journey_component_id',
         'created_at',

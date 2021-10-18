@@ -6,6 +6,7 @@ use App\Models\Journey;
 use App\Models\JourneyComponent;
 use App\Models\Journal;
 use App\Models\MusicItem;
+use App\Models\UserJourneyComponentHistory;
 use App\Http\Controllers\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,11 +18,26 @@ class JourneyController
     use ResponseTrait;
 
     // GET
-    public function index()
+    public function index(Request $request)
     {
         $journeys = Journey::all();
 
         $journeys->makeHidden('description');
+
+        foreach ($journeys as $journey) {
+            $components = $journey->component;
+            $userFinishedComponent = UserJourneyComponentHistory::where('user_id', $request->user_id)
+                    ->where('journey_id', $journey->id)
+                    ->get()
+                ;
+            // return response()->json([
+            //     'totalComponent' => $components,
+            //     // 'finished' => count($userFinishedComponent)
+            // ]);
+
+            $journey->finishedProgress = count($userFinishedComponent);
+            $journey->totalProgress = count($components);
+        }
 
         return $this->response(true, Response::HTTP_OK, 'Success fetching resources', compact('journeys'));
     }
