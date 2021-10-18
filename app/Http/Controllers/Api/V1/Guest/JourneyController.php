@@ -80,6 +80,9 @@ class JourneyController
                 break;
         }
 
+        $item->journey_component_id = $journeyComponentId;
+        $item->journey_id = $journeyComponent->journey_id;
+
         return $this->response(true, Response::HTTP_OK, 'Successing fetching resource', [
             "item" => $item
         ]);
