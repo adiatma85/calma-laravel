@@ -133,13 +133,13 @@ class MoodTrackerController
     {
         $validator = Validator::make($request->all(), [
             "user_id" => "required",
-            "date_begin" => "required"
+            "date_begin" => "string"
         ], [
             "user_id" => [
                 "required" => "user_id must exist",
             ],
             "date_begin" => [
-                "required" => "date_begin must exist",
+                "string" => "date_begin must be string if provided with format Y-m-d. Example 2021-10-18",
             ],
         ]);
 
@@ -147,8 +147,10 @@ class MoodTrackerController
             return $this->badRequestFailResponse($validator);
         }
 
-        $date_begin = Carbon::make($request->date_begin)->addDay(-1);
-        $date_end = Carbon::make($request->date_begin)->addWeek();
+        $dateBeginBase = $request->date_begin ?? Carbon::now()->startOfWeek()->format('Y-m-d');
+
+        $date_begin = Carbon::make($dateBeginBase)->addDay(-1);
+        $date_end = Carbon::make($dateBeginBase)->addWeek();
         $moodTrackers = MoodTracker::where('user_id', $request->user_id)
             // ->orderBy('updated_at', 'DESC')
             ->where('updated_at', ">=", $date_begin)
