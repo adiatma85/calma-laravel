@@ -20,9 +20,10 @@
             <div class="form-group">
               <label class="required" for="category">{{ trans('cruds.curhatan.fields.category') }}</label>
               <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="category" id="category" required>
-                  <option value="Pekerjaan">Pekerjaan</option>
-                  <option value="Ekonomi">Ekonomi</option>
-                  <option value="Asmara">Asmara</option>
+                  <option value="">Please Select</option>
+                  @foreach (\App\Models\Curhatan::CATEGORY_SELECT as $key => $value)
+                  <option value="{{$key}}">{{$value}}</option>
+                  @endforeach
               </select>
               @if($errors->has('user'))
                   <span class="text-danger">{{ $errors->first('user') }}</span>

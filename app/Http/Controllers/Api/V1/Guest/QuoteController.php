@@ -12,6 +12,11 @@ class QuoteController
 
     use ResponseTrait;
 
+    // GET from journey_id
+    public function show($journey_id){
+
+    }
+
     // GET
     public function getRandomQuote()
     {
