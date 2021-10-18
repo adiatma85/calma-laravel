@@ -74,6 +74,7 @@ class UserStoreJourneyComponentController
         $validator = Validator::make($request->all(), [
             "journey_component_id" => "required",
             "user_id" => "required",
+            'journey_id' => 'required',
         ], [
             "user_id" => [
                 "required" => "user_id field must exist",
@@ -100,6 +101,7 @@ class UserStoreJourneyComponentController
         UserJourneyComponentHistory::create([
             'user_id' => $request->user_id,
             'journey_component_id' => $request->journey_component_id,
+            'journey_id' => $request->journey_id,
         ]);
 
         return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
