@@ -32,9 +32,9 @@
             </div>
             <div class="form-group">
                 <label class="required" for="is_anonymous">{{ trans('cruds.curhatan.fields.is_anonymous') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : $curhatan->is_anonymous }}" name="is_anonymous" id="is_anonymous" required>
-                    <option value="0">False</option>
-                    <option value="1">True</option>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="is_anonymous" id="is_anonymous" required>
+                    <option value="0" {{ $curhatan->is_anonymous == 0 ? 'selected' : '' }}>False</option>
+                    <option value="1" {{ $curhatan->is_anonymous == 1 ? 'selected' : '' }}>True</option>
                 </select>
                 @if($errors->has('user'))
                     <span class="text-danger">{{ $errors->first('user') }}</span>

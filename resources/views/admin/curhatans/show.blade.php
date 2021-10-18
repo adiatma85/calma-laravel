@@ -45,7 +45,7 @@
                         </th>
                         <td>
                             <span class="badge badge-pill badge-{{ !$curhatan->is_anonymous ? 'success' : 'warning' }}">
-                                {{ !$curhatan->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                                {{ !$curhatan->is_anonymous ? 'Non-Anonymous' : 'Anonymous' }}
                             </span>
                         </td>
                     </tr>

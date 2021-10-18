@@ -68,7 +68,7 @@
                             </td>
                             <td>
                                 <span class="badge badge-pill badge-{{ !$comment->is_anonymous ? 'success' : 'warning' }}">
-                                    {{ !$comment->is_anonymous ? 'Anonymous' : 'Non-Anonymous' }}
+                                    {{ !$comment->is_anonymous ? 'Non-Anonymous' : 'Anonymous' }}
                                 </span>
                             </td>
                             <td>
