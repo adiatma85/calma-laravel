@@ -22,6 +22,7 @@ class Curhatan extends Model implements HasMedia
         'Keluarga' => 'Keluarga',
         "Teman"    => 'Teman',
         "Pendidikan" => "Pendidikan",
+        "Kesehatan" => "Kesehatan",
         "Finansial" => "Finansial",
         "Lainnya" => "Lainnya"
     ];
