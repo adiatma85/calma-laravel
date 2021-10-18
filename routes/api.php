@@ -130,9 +130,9 @@ Route::prefix('v1')
                 Route::prefix('journeys')
                     ->as('journey.')
                     ->group(function () {
-                        Route::get('/component/{journeyId}', [ApiGuestJourneyController::class, 'getComponent'])->name('getComponent');
                         Route::post('/journal-submission', [ApiGuestComponentHistory::class, 'storeJournalHistory'])->name('storeJournalHistory');
                         Route::post('/music-submission', [ApiGuestComponentHistory::class, 'storeMusicHistory'])->name('storeMusicHistory');
+                        Route::get('/component/{journeyId}', [ApiGuestJourneyController::class, 'getComponent'])->name('getComponent');
                         Route::get('/{journeyId}', [ApiGuestJourneyController::class, 'show'])->name('show');
                         Route::get('/', [ApiGuestJourneyController::class, 'index'])->name('index');
                     });

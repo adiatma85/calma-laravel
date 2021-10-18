@@ -47,10 +47,13 @@ class UserStoreJourneyComponentController
         }
 
         foreach ($request->answers as $answerItem) {
+            // return response()->json([
+            //     'item' => $answerItem["id"]
+            // ]);
             UserJournalAnswer::create([
                 "user_id" => $request->user_id,
-                "journal_question_id" => $answerItem->id,
-                'answer' => $answerItem->answer,
+                "journal_question_id" => $answerItem["id"],
+                'answer' => $answerItem["answer"],
                 "journey_id" => $request->journey_id
             ]);
         }
@@ -59,6 +62,7 @@ class UserStoreJourneyComponentController
         UserJourneyComponentHistory::create([
             'user_id' => $request->user_id,
             'journey_component_id' => $request->journey_component_id,
+            'journey_id' => $request->journey_id,
         ]);
 
         return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
