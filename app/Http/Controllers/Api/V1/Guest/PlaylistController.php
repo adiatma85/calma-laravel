@@ -44,7 +44,7 @@ class PlaylistController
     // Get Playlists From Given Category
     public function getFromCategory($categoryName)
     {
-        $musicTopicId = MusicTopic::pluck('id')->where('name', ucfirst($categoryName))->first(); // id
+        $musicTopicId = MusicTopic::where('name', ucfirst($categoryName))->first('id'); // id
 
         if (!$musicTopicId) {
             return $this->notFoundFailResponse();
