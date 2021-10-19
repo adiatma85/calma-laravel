@@ -45,7 +45,7 @@ class JourneyController
     }
 
     // GET
-    public function show($journeyId)
+    public function show(Request $request, $journeyId)
     {
         $journey = Journey::find($journeyId);
 
@@ -60,6 +60,13 @@ class JourneyController
         $components = collect($journey->components);
 
         unset($journey->components);
+
+        foreach ($components as $component) {
+            $component->is_finished = UserJourneyComponentHistory::where([
+                'journey_component_id' => $component->id,
+                'user_id' => $request->user_id,
+            ])->exists();
+        }
 
         $journey->components = $components->sortBy('urutan')->values()->all();
 
