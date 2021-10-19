@@ -32,4 +32,12 @@ class MusicController
         }
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["music" => $music->get()]);
     }
+
+    // GET from searchBar
+    public function getFromSearchBar($searchString)
+    {
+        $musics = MusicItem::where('name', 'like', "%$searchString%")->get();
+
+        return $this->response(true, Response::HTTP_OK, 'Success fetching resources', compact('musics'));
+    }
 }

@@ -87,6 +87,7 @@ Route::prefix('v1')
                 Route::prefix('musics')
                     ->as('music.')
                     ->group(function () {
+                        Route::get('/search/{searchString}', [ApiGuestMusicController::class, 'getFromSearchBar'])->name('getFromSearchBar');
                         Route::get('/from-playlist/{playlistId}', [ApiGuestMusicController::class, 'getIndexFromPlaylistId'])->name('getIndexFromPlaylistId');
                         Route::get('/{musicId}', [ApiGuestMusicController::class, 'show']);
                     });
