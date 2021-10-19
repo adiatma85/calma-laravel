@@ -38,4 +38,9 @@ class JourneyComponent extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function getJourneyIdAttribute($value)
+    {
+        return intval($value);
+    }
 }
