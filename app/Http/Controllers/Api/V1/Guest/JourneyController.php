@@ -7,10 +7,12 @@ use App\Models\JourneyComponent;
 use App\Models\Journal;
 use App\Models\MusicItem;
 use App\Models\UserJourneyComponentHistory;
+use App\Models\MoodTracker;
 use App\Http\Controllers\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Carbon;
 
 
 class JourneyController
@@ -57,6 +59,8 @@ class JourneyController
 
         unset($journey->description);
 
+        // Mood Tracker
+
         $components = collect($journey->components);
 
         unset($journey->components);
@@ -66,11 +70,42 @@ class JourneyController
                 'journey_component_id' => $component->id,
                 'user_id' => $request->user_id,
             ])->exists();
+
+            switch ($component->model_type) {
+                case 'music_items':
+                    $component->name = MusicItem::find($component->in_model_id)->name;
+                    break;
+
+                case 'journals':
+                    $component->name = Journal::find($component->in_model_id)->name;
+                    break;
+            }
         }
 
         $journey->components = $components->sortBy('urutan')->values()->all();
 
+        $userFinishedComponent = UserJourneyComponentHistory::where('user_id', $request->user_id)
+            ->where('journey_id', $journey->id)
+            ->get();
+
+        $journey->is_finished = count($userFinishedComponent) / count($component) == 1 ? true : false;
+
         return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact('journey'));
+    }
+
+    private function moodTrackerHandle($user_id)
+    {
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+
+        $todayMoodtracker = MoodTracker::where('user_id', $user_id)
+            ->where('updated_at', "<=", $tomorrow)
+            ->where("updated_at", ">=", $today);
+        $moodTracker = null;
+        if ($todayMoodtracker->exists()) {
+            $todayMoodtracker->first();
+        }
+
     }
 
     // GET Components
