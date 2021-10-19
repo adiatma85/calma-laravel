@@ -42,6 +42,11 @@ class MusicTopic extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class, 'topic_id');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

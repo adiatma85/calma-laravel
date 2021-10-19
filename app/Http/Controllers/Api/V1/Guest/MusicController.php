@@ -20,7 +20,7 @@ class MusicController
         if (!$musics->exists()) {
             return $this->notFoundFailResponse();
         }
-        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", [ "musics" => $musics->get() ]);
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["musics" => $musics->get()]);
     }
 
     // GET
@@ -30,6 +30,6 @@ class MusicController
         if (!$music) {
             return $this->notFoundFailResponse();
         }
-        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", [ "music" => $music->get() ]);
+        return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", ["music" => $music->get()]);
     }
 }

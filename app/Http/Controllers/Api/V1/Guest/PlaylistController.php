@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Guest;
 
 use App\Models\Playlist;
+use App\Models\MusicTopic;
 use App\Http\Controllers\Traits\ResponseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,5 +39,19 @@ class PlaylistController
         }
         $playlist->makeHidden('description');
         return $this->response(true, Response::HTTP_OK, "Success fetching particular resource", compact('playlist'));
+    }
+
+    // Get Playlists From Given Category
+    public function getFromCategory($categoryName)
+    {
+        $musicTopicId = MusicTopic::pluck('id')->where('name', ucfirst($categoryName))->first(); // id
+
+        if (!$musicTopicId) {
+            return $this->notFoundFailResponse();
+        }
+
+        $playlists = Playlist::with(['topic', 'playlistMusicItems'])->where('topic_id', $musicTopicId);
+
+        return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('playlists'));
     }
 }
