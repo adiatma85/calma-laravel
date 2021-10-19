@@ -26,7 +26,9 @@ class JourneyController
 
         $journeys->makeHidden('description');
 
-        $journeys->load('components');
+        // $journeys->load('components');
+
+        $journeys->makeHidden('components');
 
         foreach ($journeys as $journey) {
             $components = $journey->components;
@@ -57,15 +59,13 @@ class JourneyController
 
         $journey->load('components');
 
-        unset($journey->description);
+        $journey->makeHidden('description');
 
-        // Mood Tracker
-
-        // $componentCount = count($journey->components);
         $components = collect($journey->components);
 
         unset($journey->components);
 
+        // COMPONENTS
         foreach ($components as $component) {
             $component->is_finished = UserJourneyComponentHistory::where([
                 'journey_component_id' => $component->id,
@@ -136,7 +136,6 @@ class JourneyController
         switch ($journeyComponent->model_type) {
             case 'journals':
                 $item = Journal::with(['questions', 'media'])->firstwhere('id', $journeyComponent->in_model_id);
-
                 break;
 
             case 'music_items':
@@ -144,7 +143,7 @@ class JourneyController
                 break;
         }
 
-        $item->journey_component_id = $journeyComponentId;
+        $item->journey_component_id = intval($journeyComponentId);
         $item->journey_id = $journeyComponent->journey_id;
 
         return $this->response(true, Response::HTTP_OK, 'Successing fetching resource', [
