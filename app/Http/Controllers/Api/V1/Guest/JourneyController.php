@@ -34,8 +34,8 @@ class JourneyController
                 ->where('journey_id', $journey->id)
                 ->get();
 
-            $journey->totalProgress = count($components);
-            $journey->finishedProgress = count($userFinishedComponent);
+            // $journey->totalProgress = count($components);
+            // $journey->finishedProgress = count($userFinishedComponent);
 
             // return response()->json(compact('journey'));
 
@@ -61,6 +61,7 @@ class JourneyController
 
         // Mood Tracker
 
+        // $componentCount = count($journey->components);
         $components = collect($journey->components);
 
         unset($journey->components);
@@ -95,7 +96,7 @@ class JourneyController
             ->where('journey_id', $journey->id)
             ->get();
 
-        $journey->is_finished = count($userFinishedComponent) / count($component) == 1 ? true : false;
+        $journey->is_finished = count($userFinishedComponent) / count($components) == 1 ? true : false;
 
         return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact('journey'));
     }
@@ -119,7 +120,7 @@ class JourneyController
                 'journey_id' => $journey_id,
             ]);
         }
-        
+
         return $moodTracker ? true : false;
     }
 
