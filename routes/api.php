@@ -77,7 +77,7 @@ Route::prefix('v1')
                 Route::prefix('playlists')
                     ->as('playlist.')
                     ->group(function () {
-                        Route::get('/category/{categoryName}', [ApiGuestPlaylistController::class, ]);
+                        Route::get('/category/{categoryName}', [ApiGuestPlaylistController::class, 'getFromCategory'])->name('getFromCategory');
                         Route::get('/random', [ApiGuestPlaylistController::class, 'indexWithRandom'])->name('indexWithRandom');
                         Route::get('/{playListId}', [ApiGuestPlaylistController::class, 'show'])->name('show');
                         Route::get('/', [ApiGuestPlaylistController::class, 'index'])->name('index');
