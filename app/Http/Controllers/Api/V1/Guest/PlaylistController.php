@@ -50,7 +50,7 @@ class PlaylistController
             return $this->notFoundFailResponse();
         }
 
-        $playlists = Playlist::with(['topic', 'playlistMusicItems'])->where('topic_id', $musicTopicId);
+        $playlists = Playlist::with(['topic', 'playlistMusicItems'])->where('topic_id', $musicTopicId)->get();
 
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('playlists'));
     }
