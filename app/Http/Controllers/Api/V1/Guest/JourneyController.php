@@ -57,6 +57,12 @@ class JourneyController
 
         unset($journey->description);
 
+        $components = collect($journey->components);
+
+        unset($journey->components);
+
+        $journey->components = $components->sortBy('urutan')->values()->all();
+
         return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact('journey'));
     }
 

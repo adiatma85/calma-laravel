@@ -117,13 +117,36 @@ class MoodTrackerController
         }
 
         // Playlist Reccomendation
-        // For now, it's randomized
-        $correlationArray = [
-            "Tidur" => "Tidur, Relaksasi",
-            "Pekerjaan" => "Produktif, Kecemasan, Relaksasi",
-            "Hubungan" => "Hubungan, Kecemasan",
-            
-        ];
+        // $correlationArray = [
+        //     "Tidur" => ["Tidur", "Relaksasi"],
+        //     "Pekerjaan" => ["Produktif", "Kecemasan", "Relaksasi"],
+        //     "Hubungan" => ["Hubungan", "Kecemasan"],
+        //     'Keluarga' => ['Hubungan, Kecemasan'],
+        //     'Teman' => ["Hubungan", "Kecemasan"],
+        //     'Pendidikan' => ["Produkitf", "Relaksasi"],
+        //     "Finansial" => ["Finansial"],
+        // ];
+
+        // PENDEKATAN 
+        // NOT Partially Urgent
+        // if ($moodTracker->reasons) {
+        //     $basePlaylist = collect();
+        //     foreach ($moodTracker->reasons as $itemReason) {
+
+        //         $correlationItem = $correlationArray[$itemReason] ?? null;
+
+        //         if (!$correlationItem) {
+        //             continue;
+        //         }
+
+        //         $searchEachPlaylist = Playlist::where(function ($query) use ($correlationArray) {
+                    
+        //         })->get();
+        //     }
+        //     $playlist = Playlist::where(function ($query) use ($correlationArray) {
+        //     })->get();
+        // }
+
         $randomPlaylist = Playlist::inRandomOrder()->limit(5)->get();
 
         // Response
