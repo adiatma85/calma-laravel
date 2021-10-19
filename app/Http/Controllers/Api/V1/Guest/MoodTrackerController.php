@@ -118,11 +118,17 @@ class MoodTrackerController
 
         // Playlist Reccomendation
         // For now, it's randomized
+        $correlationArray = [
+            "Tidur" => "Tidur, Relaksasi",
+            "Pekerjaan" => "Produktif, Kecemasan, Relaksasi",
+            "Hubungan" => "Hubungan, Kecemasan",
+            
+        ];
         $randomPlaylist = Playlist::inRandomOrder()->limit(5)->get();
 
         // Response
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", [
-            "is_today_finished" => true,
+            "is_today_finished" => $moodTracker->mood ? true : false,
             "mood" => $moodTracker->mood ?? null,
             "reasons" => $moodTracker->reasons ?? null,
             "reccomended_playlists" => $randomPlaylist,

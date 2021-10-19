@@ -74,7 +74,12 @@ class CurhatController
             return $this->badRequestFailResponse($validator);
         }
 
-        $curhatan = Curhatan::create($request->all());
+        $curhatan = Curhatan::create([
+            "content" => $request->content,
+            "is_anonymous" => $request->is_anonymous,
+            "category" => $request->topic,
+            "user_id" => $request->user_id,
+        ]);
         return $this->response(true, Response::HTTP_OK, "Success create curhatan", compact('curhatan'));
     }
 
