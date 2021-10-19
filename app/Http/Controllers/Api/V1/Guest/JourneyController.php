@@ -79,6 +79,13 @@ class JourneyController
                 case 'journals':
                     $component->name = Journal::find($component->in_model_id)->name;
                     break;
+
+                case 'mood_trackers':
+                    $component->name = null;
+                    if (!$component->is_finished) {
+                        $component->is_finished = $this->moodTrackerHandle($request->user_id, $component->id, $journey->id);
+                    }
+                    break;
             }
         }
 
@@ -93,7 +100,7 @@ class JourneyController
         return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact('journey'));
     }
 
-    private function moodTrackerHandle($user_id)
+    private function moodTrackerHandle($user_id, $component_id, $journey_id)
     {
         $today = Carbon::today();
         $tomorrow = Carbon::tomorrow();
@@ -103,9 +110,17 @@ class JourneyController
             ->where("updated_at", ">=", $today);
         $moodTracker = null;
         if ($todayMoodtracker->exists()) {
-            $todayMoodtracker->first();
-        }
+            $moodTracker = $todayMoodtracker->first();
 
+            // Create History
+            UserJourneyComponentHistory::create([
+                'user_id' => $user_id,
+                'journey_component_id' => $component_id,
+                'journey_id' => $journey_id,
+            ]);
+        }
+        
+        return $moodTracker ? true : false;
     }
 
     // GET Components
