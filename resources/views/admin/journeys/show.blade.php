@@ -93,7 +93,7 @@
                                 Item nomor {{ $component->urutan }} tipe {{ \App\Models\Journey::ITEM_JOURNEY_TYPE[$component->model_type] }}
                             </th>
                             <td>
-                                <a href="{{ $component->in_model_id ? route("admin.$routeNamePrefix.show", $component->in_model_id) : '' }}">
+                                <a href="{{ $component->in_model_id ? route("admin.$routeNamePrefix.show", $component->in_model_id) : '#' }}">
                                     {{ $component->model_type == 'mood_trackers' ? 'Mood Tracker' : $journey->items[$questionIndex]->name }}
                                 </a>
                             </td>
