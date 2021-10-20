@@ -21,7 +21,7 @@ class QuoteController
             $this->notFoundFailResponse();
         }
 
-        return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact($quote));
+        return $this->response(true, Response::HTTP_OK, "Success fetching resource", compact('quote'));
     }
 
     // GET

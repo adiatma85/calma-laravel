@@ -65,7 +65,7 @@ class UserStoreJourneyComponentController
             'journey_id' => $request->journey_id,
         ]);
 
-        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
+        return $this->response(true, Response::HTTP_OK, "Success to submit", null);
     }
 
     // HISTORY Untuk music juga
@@ -104,6 +104,6 @@ class UserStoreJourneyComponentController
             'journey_id' => $request->journey_id,
         ]);
 
-        return $this->response(true, Response::HTTP_NO_CONTENT, "Success to submit", null);
+        return $this->response(true, Response::HTTP_OK, "Success to submit", null);
     }
 }

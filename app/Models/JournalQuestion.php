@@ -38,6 +38,11 @@ class JournalQuestion extends Model
         return $this->belongsTo(Journal::class, 'journal_id');
     }
 
+    public function getJournalIdAttribute($value)
+    {
+        return intval($value);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
