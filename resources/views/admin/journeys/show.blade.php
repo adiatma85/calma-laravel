@@ -70,6 +70,17 @@
                     @foreach ($journey->components as $component)
                         @php
                             $routeNamePrefix = "";
+                            switch ($component->model_type) {
+                                case 'journals':
+                                    $routeNamePrefix = "journals";
+                                    break;
+                                case 'music-items':
+                                    $routeNamePrefix = "music-items";
+                                    break;
+                                case 'mood-trackers':
+                                    $routeNamePrefix = "mood-trackers";
+                                    break;
+                            }
                             if ($component->model_type == 'journals') {
                                 $routeNamePrefix = "journals";
                             } else {
@@ -82,7 +93,7 @@
                                 Item nomor {{ $component->urutan }} tipe {{ \App\Models\Journey::ITEM_JOURNEY_TYPE[$component->model_type] }}
                             </th>
                             <td>
-                                <a href="{{route("admin.$routeNamePrefix.show", $component->in_model_id)}}">
+                                <a href="{{route($component->in_model_id ? "admin.$routeNamePrefix.show", $component->in_model_id : '#')}}">
                                     {{ $journey->items[$questionIndex]->name }}
                                 </a>
                             </td>

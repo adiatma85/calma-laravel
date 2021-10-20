@@ -17,6 +17,7 @@ class Journey extends Model implements HasMedia
     use HasFactory;
 
     public const ITEM_JOURNEY_TYPE = [
+        'mood_trackers' => 'Mood Tracker',
         "journals" => "Journal",
         "music_items" => "Music",
     ];
