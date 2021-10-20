@@ -12,6 +12,7 @@ use App\Models\Journal;
 use App\Models\MusicItem;
 use Gate;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -145,7 +146,7 @@ class JourneyController extends Controller
                     'model_type' => 'journals',
                     'in_model_id' => $item,
                     'journey_id' => $journey->id,
-                    'urutan' => $request->urutan_journal[$index],
+                    'urutan' => $request->urutan_journal[$index] + 1,
                 ]);
                 $index++;
             }
@@ -159,11 +160,19 @@ class JourneyController extends Controller
                     'model_type' => 'music_items',
                     'in_model_id' => $item,
                     'journey_id' => $journey->id,
-                    'urutan' => $request->urutan_music[$index],
+                    'urutan' => $request->urutan_music[$index] + 1,
                 ]);
                 $index++;
             }
         }
+
+        // Store Mood Trackers
+        JourneyComponent::create([
+            'model_type' => 'mood_trackers',
+            'in_model_id' => null,
+            'journey_id' => $journey->id,
+            'urutan' => 1
+        ]);
 
         // Add Item
         // if ($newItems = $request->input('add_journey_items')) {
@@ -204,10 +213,25 @@ class JourneyController extends Controller
                     $item = MusicItem::find($component->in_model_id);
                     array_push($items, $item);
                     break;
+                case 'mood_trackers':
+                    $item = (object)[
+                        'id' => 0,
+                        'name' => 'Mood Tracker',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                        'deleted_at' => null,
+                    ];
+                    array_push($items, $item);
+                    break;
             }
         }
 
         $journey->items = $items;
+
+        // return response()->json([
+        //     'item' => $items,
+        //     'journey' => $journey
+        // ]);
         
         return view('admin.journeys.show', compact('journey'));
     }
