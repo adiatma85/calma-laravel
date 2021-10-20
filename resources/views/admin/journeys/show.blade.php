@@ -94,7 +94,7 @@
                             </th>
                             <td>
                                 <a href="{{ $component->in_model_id ? route("admin.$routeNamePrefix.show", $component->in_model_id) : '' }}">
-                                    {{ $component->model_type == 'mood-trackers' ? 'Mood Tracker' : $journey->items[$questionIndex]->name }}
+                                    {{ $component->model_type == 'mood_trackers' ? 'Mood Tracker' : $journey->items[$questionIndex]->name }}
                                 </a>
                             </td>
                         </tr>

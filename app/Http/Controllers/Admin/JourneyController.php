@@ -202,6 +202,10 @@ class JourneyController extends Controller
             ->sortBy('urutan')
             ->values()
             ->all();
+        
+        unset($journey->components);
+
+        $journey->components = $components;
 
         foreach ($components as $component) {
             switch ($component->model_type) {
