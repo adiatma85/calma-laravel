@@ -18,14 +18,18 @@ class CurhatController
     // GET
     public function index()
     {
-        $curhatans = Curhatan::with(['user'])->get();
+        $curhatans = Curhatan::with(['user'])
+            ->latest()
+            ->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 
     // GET
     public function getIndexFromCategory($categoryName)
     {
-        $curhatans = Curhatan::with(['user'])->where('category', $categoryName)->get();
+        $curhatans = Curhatan::with(['user'])->where('category', $categoryName)
+            ->latest()
+            ->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('curhatans'));
     }
 

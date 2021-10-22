@@ -17,7 +17,9 @@ class CommentController
     // GET
     public function getCommentsFromCurhatanId($curhatanId)
     {
-        $comments = Comment::where('curhatan_id', $curhatanId)->get();
+        $comments = Comment::where('curhatan_id', $curhatanId)
+            ->latest()
+            ->get();
         return $this->response(true, Response::HTTP_OK, "Success fetching resources", compact('comments'));
     }
 
